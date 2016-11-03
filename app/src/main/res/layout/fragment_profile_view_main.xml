@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="423dp"
+        android:layout_marginTop="45dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name:"
+            android:id="@+id/name_label"
+            android:layout_marginLeft="51dp"
+            android:layout_marginStart="51dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/Name_of_Student"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/button"
+            android:layout_toStartOf="@+id/button" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:textColor="#a9f2f4"
+            android:background="@drawable/ic_Edit_Button"
+            android:gravity="right"
+            android:layout_marginRight="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/Name_of_Student" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Speiality:"
+            android:id="@+id/Speciality_Label"
+            android:layout_marginTop="56dp"
+            android:layout_below="@+id/name_label"
+            android:layout_alignLeft="@+id/name_label"
+            android:layout_alignStart="@+id/name_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/Speciality_of_student"
+            android:layout_alignTop="@+id/Speciality_Label"
+            android:layout_alignLeft="@+id/Name_of_Student"
+            android:layout_alignStart="@+id/Name_of_Student" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:textColor="#a9f2f4"
+            android:background="@drawable/ic_Edit_Button"
+            android:layout_alignTop="@+id/Speciality_of_student"
+            android:layout_alignLeft="@+id/button"
+            android:layout_alignStart="@+id/button"
+            android:layout_alignBottom="@+id/Speciality_of_student" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/Year_of_Student"
+            android:gravity="left"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/button2"
+            android:layout_toStartOf="@+id/button2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Year: "
+            android:id="@+id/Year_Label"
+            android:layout_alignTop="@+id/Year_of_Student"
+            android:layout_alignLeft="@+id/Speciality_Label"
+            android:layout_alignStart="@+id/Speciality_Label" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:textColor="#a9f2f4"
+            android:background="@drawable/ic_Edit_Button"
+            android:gravity="right"
+            android:layout_alignTop="@+id/Year_of_Student"
+            android:layout_toRightOf="@+id/Year_of_Student"
+            android:layout_toEndOf="@+id/Year_of_Student"
+            android:layout_alignBottom="@+id/Year_of_Student" />
+
+    </RelativeLayout>
+</LinearLayout>

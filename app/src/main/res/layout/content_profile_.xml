@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_profile_"
+    tools:context="com.androidprojects.tudevs.tu_orgnzr.Profile_Activity">
+    <TextView
+        android:id="@+id/Greeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#33cc33"
+        android:textSize="25dp"
+        android:layout_marginLeft="1dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#00ff99">
+        <TextView
+            android:id="@+id/Day_Of_Week"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="25dp"
+            android:textColor="#00334d"
+            android:gravity="center"
+            android:background="#00ff99"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/Date"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="35dp"
+            android:textColor="#00334d"
+            android:gravity="center"
+            android:background="#00ff99"
+            android:layout_weight="2"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/Latest_Event_View"
+        android:layout_marginTop="15dp">
+
+    </LinearLayout>
+</LinearLayout>
