@@ -20,9 +20,6 @@ import com.androidprojects.tudevs.tu_orgnzr.Events.EditProgrammOnClickEvent;
 import com.androidprojects.tudevs.tu_orgnzr.R;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 /**
  * Created by Ivan Grigorov on 17/04/2016.
  * Inflates the Friday Fragment
@@ -46,7 +43,7 @@ public class FridayFragment extends Fragment {
 
         // Read all the rows from the database and insert the information in the activity
         LinearLayout imprtedTable = (LinearLayout) friday.findViewById(R.id.Imported_Table);
-        TableLayout tableContainer = (TableLayout)imprtedTable.findViewById(R.id.Programm_Table);
+        TableLayout tableContainer = (TableLayout) imprtedTable.findViewById(R.id.Programm_Table);
 
 
         String currentLecture = "";

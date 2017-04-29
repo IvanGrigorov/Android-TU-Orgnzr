@@ -42,7 +42,7 @@ public class ThursdayFragment extends Fragment {
         Cursor allSubjects = readProgrammHelper.readRows();
 
         LinearLayout imprtedTable = (LinearLayout) thursday.findViewById(R.id.Imported_Table);
-        TableLayout tableContainer = (TableLayout)imprtedTable.findViewById(R.id.Programm_Table);
+        TableLayout tableContainer = (TableLayout) imprtedTable.findViewById(R.id.Programm_Table);
 
         String currentLecture = "";
         String currentColor = ColorsEnum.randomColor().getValue();

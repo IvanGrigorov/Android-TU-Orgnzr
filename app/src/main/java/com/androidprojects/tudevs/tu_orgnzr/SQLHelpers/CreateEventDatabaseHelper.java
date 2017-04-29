@@ -12,7 +12,7 @@ import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
  * Created by Ivan Grigorov on 30/04/2016.
  * Helps to initialize the Event Table
  */
-public class CreateEventDatabaseHelper extends SQLiteOpenHelper{
+public class CreateEventDatabaseHelper extends SQLiteOpenHelper {
 
     public CreateEventDatabaseHelper(Context context) {
         super(context, Config.DATABASE_NAME, null, Config.DATABASE_VERSION);

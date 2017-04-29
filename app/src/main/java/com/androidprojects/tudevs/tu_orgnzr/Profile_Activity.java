@@ -13,19 +13,19 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,14 +48,13 @@ import java.util.Locale;
 public class Profile_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int LOCATION_PERMISSION = 1;
+    Criteria criteria;
     private ReadEventTableHelper readEventTableHelper;
     private double longitude;
     private double latitude;
     private String provider;
     private LocationManager locationManager;
-    private static final int LOCATION_PERMISSION = 1;
-    Criteria criteria;
-
     // Create Listener to listen and update location
     private final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
@@ -94,10 +93,9 @@ public class Profile_Activity extends AppCompatActivity
         criteria.setBearingRequired(false);
         criteria.setSpeedRequired(false);
         criteria.setCostAllowed(true);
-        if (this.locationManager.isProviderEnabled(this.locationManager.NETWORK_PROVIDER) && Requirements.hasInternetConnectivity(this)) {
-            this.provider = (this.locationManager.getProvider(this.locationManager.NETWORK_PROVIDER)).getName();
-        }
-        else {
+        if (this.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) && Requirements.hasInternetConnectivity(this)) {
+            this.provider = (this.locationManager.getProvider(LocationManager.NETWORK_PROVIDER)).getName();
+        } else {
             this.provider = locationManager.getBestProvider(criteria, true);
 
         }
@@ -106,7 +104,7 @@ public class Profile_Activity extends AppCompatActivity
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION );
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION);
 
         }
 
@@ -251,16 +249,15 @@ public class Profile_Activity extends AppCompatActivity
                         .setTitle("Enable GPS")
                         .setMessage("Please enable your GPS !")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
-                });
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
                 //AlertDialog alertDialog = dialog.create();
                 dialog.show();
 
-            }
-            else if (Requirements.isGoogleMapsInstalled(this)) {
+            } else if (Requirements.isGoogleMapsInstalled(this)) {
                 // Ask for lacation permission if it is not granted
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -283,9 +280,7 @@ public class Profile_Activity extends AppCompatActivity
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                 startActivity(intent);
-            }
-
-            else {
+            } else {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                         .setTitle("Install Google Maps")
                         .setMessage("Please install Google Maps to proceed")
@@ -298,7 +293,7 @@ public class Profile_Activity extends AppCompatActivity
                         });
                 dialog.show();
             }
-
+        } else if (id == R.id.nav_profile) {
 
         } else if (id == R.id.nav_settings) {
 
@@ -436,19 +431,19 @@ public class Profile_Activity extends AppCompatActivity
         double latitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("latitude");
         double longitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("longitude");
         readTable.close();
-        return new double[] {latitude, longitude};
+        return new double[]{latitude, longitude};
 
     }
 
     private String loadJSONFromFile(String fileName) throws IOException {
         String JSONString = null;
 
-            InputStream inputStream = getAssets().open(fileName);
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            JSONString = new String(buffer, "UTF-8");
-            return JSONString;
+        InputStream inputStream = getAssets().open(fileName);
+        int size = inputStream.available();
+        byte[] buffer = new byte[size];
+        inputStream.read(buffer);
+        JSONString = new String(buffer, "UTF-8");
+        return JSONString;
 
     }
 

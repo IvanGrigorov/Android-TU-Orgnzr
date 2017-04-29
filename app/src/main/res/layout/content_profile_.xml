@@ -1,58 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_profile_"
-    tools:context="com.androidprojects.tudevs.tu_orgnzr.Profile_Activity">
+    tools:context="com.androidprojects.tudevs.tu_orgnzr.Profile_Activity"
+    tools:showIn="@layout/app_bar_profile_">
+
+    <LinearLayout
+        android:layout_marginBottom="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#0080ff">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_profile_main_weather">
+            </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Weather_res"
+            android:textSize="30dp"/>
+    </LinearLayout>
+
     <TextView
+        android:layout_marginTop="10dp"
         android:id="@+id/Greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
         android:textColor="#33cc33"
-        android:textSize="25dp"
-        android:layout_marginLeft="1dp"/>
+        android:textSize="25dp" />
 
     <LinearLayout
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:orientation="vertical"
+        android:background="#00ff99"
         android:gravity="center"
-        android:background="#00ff99">
+        android:orientation="vertical">
+
         <TextView
+            android:layout_marginTop="40dp"
             android:id="@+id/Day_Of_Week"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textSize="25dp"
-            android:textColor="#00334d"
-            android:gravity="center"
+            android:layout_weight="1"
             android:background="#00ff99"
-            android:layout_weight="1"/>
+            android:gravity="center"
+            android:textColor="#00334d"
+            android:textSize="25dp" />
+
         <TextView
             android:id="@+id/Date"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textSize="35dp"
-            android:textColor="#00334d"
-            android:gravity="center"
+            android:layout_weight="2"
             android:background="#00ff99"
-            android:layout_weight="2"/>
+            android:gravity="center"
+            android:textColor="#00334d"
+            android:textSize="35dp" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/Latest_Event_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/Latest_Event_View"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

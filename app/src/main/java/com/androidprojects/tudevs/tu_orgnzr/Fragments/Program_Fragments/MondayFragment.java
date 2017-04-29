@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -44,11 +43,11 @@ public class MondayFragment extends Fragment {
 
         // Read all the rows from the database and insert the information in the activity
         LinearLayout imprtedTable = (LinearLayout) monday.findViewById(R.id.Imported_Table);
-        TableLayout tableContainer = (TableLayout)imprtedTable.findViewById(R.id.Programm_Table);
+        TableLayout tableContainer = (TableLayout) imprtedTable.findViewById(R.id.Programm_Table);
 
         String currentLecture = "";
         String currentColor = ColorsEnum.randomColor().getValue();
-        int indexOfTableViewRow = allSubjects.getCount() - 1 ;
+        int indexOfTableViewRow = allSubjects.getCount() - 1;
         if (allSubjects != null) {
             try {
                 while (allSubjects.moveToNext()) {

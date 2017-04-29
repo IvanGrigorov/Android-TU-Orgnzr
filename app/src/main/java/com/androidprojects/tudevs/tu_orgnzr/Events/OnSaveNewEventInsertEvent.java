@@ -1,26 +1,16 @@
 package com.androidprojects.tudevs.tu_orgnzr.Events;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.provider.CalendarContract;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.androidprojects.tudevs.tu_orgnzr.Config.Config;
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
-import com.androidprojects.tudevs.tu_orgnzr.Create_New_Note_Activity;
-import com.androidprojects.tudevs.tu_orgnzr.Display_Notes_Activity;
-import com.androidprojects.tudevs.tu_orgnzr.Profile_Activity;
 import com.androidprojects.tudevs.tu_orgnzr.R;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ImportNewEventHelper;
 

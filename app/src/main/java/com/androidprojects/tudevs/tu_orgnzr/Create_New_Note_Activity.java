@@ -2,22 +2,19 @@ package com.androidprojects.tudevs.tu_orgnzr;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import com.androidprojects.tudevs.tu_orgnzr.Events.AddPhotoToNoteEvent;
-import com.androidprojects.tudevs.tu_orgnzr.Events.NewNoteOnClickEvent;
 import com.androidprojects.tudevs.tu_orgnzr.Events.OnSaveNewEventInsertEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Create_New_Note_Activity extends AppCompatActivity {
 
@@ -83,10 +80,9 @@ public class Create_New_Note_Activity extends AppCompatActivity {
                 startActivity(openNewActivityIntent);
                 finish();
             }
-        }
-        else if (requestCode == AddPhotoToNoteEvent.REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-           // Bundle extras = data.getExtras();
-           // Bitmap imageBitmap = (Bitmap) extras.get("data");
+        } else if (requestCode == AddPhotoToNoteEvent.REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+            // Bundle extras = data.getExtras();
+            // Bitmap imageBitmap = (Bitmap) extras.get("data");
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);
