@@ -32,9 +32,11 @@ import android.widget.Toast;
 
 import com.androidprojects.tudevs.tu_orgnzr.Config.Config;
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
+import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModel;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.Requirements;
+import com.androidprojects.tudevs.tu_orgnzr.WeatherAnalyzer.TreeConstructor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +50,7 @@ import java.util.Locale;
 public class Profile_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static Context currentContext;
     private static final int LOCATION_PERMISSION = 1;
     Criteria criteria;
     private ReadEventTableHelper readEventTableHelper;
@@ -83,6 +86,7 @@ public class Profile_Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_);
 
+        this.currentContext = this;
         // Creating Criteria how to use the location Manager
         String svc = Context.LOCATION_SERVICE;
         locationManager = (LocationManager) getSystemService(svc);
@@ -177,6 +181,50 @@ public class Profile_Activity extends AppCompatActivity
             }
         }
 
+        // TODO: Add weather info
+        JSONObject weatherInfo = null;
+        try {
+             weatherInfo = new JSONObject(this.loadJSONFromFile("Weather.json"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //weatherInfo
+        try {
+            double humidity = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("atmosphere").getDouble("humidity");
+            double rainProbability = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("atmosphere").getDouble("rain");
+            double temperature = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("condition").getDouble("temp");
+            double wind = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("wind").getDouble("speed");
+            WeatherModel weatherModel = new WeatherModel();
+                    //new WeatherModel(rainProbability, humidity, temperature, wind);
+            weatherModel.setHumidValue(humidity);
+            weatherModel.setWindSpeedValue(wind);
+            weatherModel.setTempValue(temperature);
+            weatherModel.setRainProbability(rainProbability);
+            String[] valuesForTree = new String[] {weatherModel.getRainClassified(), weatherModel.getTempClassified(),
+                    weatherModel.getHumidClassified(), weatherModel.getWindClassified() };
+            TextView temp = (TextView) findViewById(R.id.temp_one);
+            temp.setText(Double.toString(temperature));
+            TextView humid = (TextView) findViewById(R.id.temp_two);
+            humid.setText(Double.toString(humidity));
+            TreeConstructor treeConstructor = new TreeConstructor();
+            treeConstructor.setRootNode();
+            treeConstructor.fillTreeFromJSON(treeConstructor.root);
+            String outcome =  treeConstructor.generateOutcome(treeConstructor.root, valuesForTree, 0);
+            String activityMessage = "";
+            if (outcome == "Yes") {
+                activityMessage = "Enjoy the day";
+            }
+            else {
+                activityMessage = "Stay home for comfort";
+            }
+            TextView suggestion = (TextView) findViewById(R.id.suggestion);
+            suggestion.setText(activityMessage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         // TODO: ADD info about the future activity
     }
 
@@ -435,10 +483,11 @@ public class Profile_Activity extends AppCompatActivity
 
     }
 
-    private String loadJSONFromFile(String fileName) throws IOException {
+    // Make this method in new class
+    public static String loadJSONFromFile(String fileName) throws IOException {
         String JSONString = null;
 
-        InputStream inputStream = getAssets().open(fileName);
+        InputStream inputStream = currentContext.getAssets().open(fileName);
         int size = inputStream.available();
         byte[] buffer = new byte[size];
         inputStream.read(buffer);

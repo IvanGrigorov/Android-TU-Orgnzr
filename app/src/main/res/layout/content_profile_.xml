@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,26 +13,156 @@
     tools:context="com.androidprojects.tudevs.tu_orgnzr.Profile_Activity"
     tools:showIn="@layout/app_bar_profile_">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginBottom="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="#0080ff">
         <ImageView
+            android:id="@+id/weather_image"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_profile_main_weather">
             </ImageView>
         <TextView
+            android:layout_toRightOf="@+id/weather_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Weather_res"
             android:textSize="30dp"/>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weather_image"
+            android:textSize="30dp"/>
+
+    <TableLayout
+        android:id="@+id/weather_table"
+        android:layout_below="@+id/suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:background="#f7f1f1"
+        android:padding="3dp">
+        <TableRow
+            android:weightSum="1"
+            android:background="#f7f1f1">
+            <LinearLayout
+                android:layout_margin="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_column="0"
+                android:background="#0080ff">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Temp:"
+                    android:textSize="25dp"/>
+                <TextView
+                    android:id="@+id/temp_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="25dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_margin="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_column="0"
+                android:background="#0080ff">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Temp:"
+                    android:textSize="25dp"/>
+                <TextView
+                    android:id="@+id/temp_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="25dp"/>
+
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:background="#f7f1f1"
+            android:weightSum="1">
+            <LinearLayout
+                android:layout_margin="1dp"
+                android:background="#0080ff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_column="0">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Temp:"
+                    android:textSize="25dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_margin="1dp"
+                android:background="#0080ff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_column="0">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Temp:"
+                    android:textSize="25dp"/>
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:background="#f7f1f1"
+            android:weightSum="1">
+            <LinearLayout
+                android:layout_margin="1dp"
+                android:background="#0080ff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_column="0">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Temp:"
+                    android:textSize="25dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_margin="1dp"
+                android:background="#0080ff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_column="0">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Temp:"
+                    android:textSize="25dp"/>
+            </LinearLayout>
+        </TableRow>
+
+    </TableLayout>
+    </RelativeLayout>
 
     <TextView
-        android:layout_marginTop="10dp"
+
+        android:layout_marginTop="3dp"
         android:id="@+id/Greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +171,7 @@
         android:textSize="25dp" />
 
     <LinearLayout
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00ff99"
@@ -78,4 +208,4 @@
         android:orientation="vertical">
 
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

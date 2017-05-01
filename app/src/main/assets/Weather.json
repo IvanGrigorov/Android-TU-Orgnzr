@@ -1,0 +1,150 @@
+{
+  "query": {
+    "count": 1,
+    "created": "2016-12-20T11:01:30Z",
+    "lang": "en-US",
+    "results": {
+      "channel": {
+        "units": {
+          "distance": "mi",
+          "pressure": "in",
+          "speed": "mph",
+          "temperature": "F"
+        },
+        "title": "Yahoo! Weather - Sofia, Sofiya-Grad, BG",
+        "link": "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-839722/",
+        "description": "Yahoo! Weather for Sofia, Sofiya-Grad, BG",
+        "language": "en-us",
+        "lastBuildDate": "Tue, 20 Dec 2016 01:01 PM EET",
+        "ttl": "60",
+        "location": {
+          "city": "Sofia",
+          "country": "Bulgaria",
+          "region": " Sofiya-Grad"
+        },
+        "wind": {
+          "chill": "32",
+          "direction": "270",
+          "speed": "0"
+        },
+        "atmosphere": {
+          "humidity": "73",
+          "pressure": "940.0",
+          "rising": "0",
+          "visibility": "16.1",
+          "rain": "10"
+        },
+        "astronomy": {
+          "sunrise": "7:54 am",
+          "sunset": "4:56 pm"
+        },
+        "image": {
+          "title": "Yahoo! Weather",
+          "width": "142",
+          "height": "18",
+          "link": "http://weather.yahoo.com",
+          "url": "https://media.giphy.com/media/6R3boOvvH0IMw/giphy.gif"
+        },
+        "item": {
+          "title": "Conditions for Sofia, Sofiya-Grad, BG at 12:00 PM EET",
+          "lat": "42.697079",
+          "long": "23.324551",
+          "link": "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-839722/",
+          "pubDate": "Tue, 20 Dec 2016 12:00 PM EET",
+          "condition": {
+            "code": "32",
+            "date": "Tue, 20 Dec 2016 12:00 PM EET",
+            "temp": "31",
+            "text": "Sunny"
+          },
+          "forecast": [
+            {
+              "code": "32",
+              "date": "20 Dec 2016",
+              "day": "Tue",
+              "high": "42",
+              "low": "17",
+              "text": "Sunny"
+            },
+            {
+              "code": "30",
+              "date": "21 Dec 2016",
+              "day": "Wed",
+              "high": "38",
+              "low": "22",
+              "text": "Partly Cloudy"
+            },
+            {
+              "code": "34",
+              "date": "22 Dec 2016",
+              "day": "Thu",
+              "high": "37",
+              "low": "16",
+              "text": "Mostly Sunny"
+            },
+            {
+              "code": "32",
+              "date": "23 Dec 2016",
+              "day": "Fri",
+              "high": "40",
+              "low": "16",
+              "text": "Sunny"
+            },
+            {
+              "code": "32",
+              "date": "24 Dec 2016",
+              "day": "Sat",
+              "high": "39",
+              "low": "17",
+              "text": "Sunny"
+            },
+            {
+              "code": "30",
+              "date": "25 Dec 2016",
+              "day": "Sun",
+              "high": "42",
+              "low": "20",
+              "text": "Partly Cloudy"
+            },
+            {
+              "code": "30",
+              "date": "26 Dec 2016",
+              "day": "Mon",
+              "high": "41",
+              "low": "22",
+              "text": "Partly Cloudy"
+            },
+            {
+              "code": "30",
+              "date": "27 Dec 2016",
+              "day": "Tue",
+              "high": "43",
+              "low": "28",
+              "text": "Partly Cloudy"
+            },
+            {
+              "code": "30",
+              "date": "28 Dec 2016",
+              "day": "Wed",
+              "high": "40",
+              "low": "24",
+              "text": "Partly Cloudy"
+            },
+            {
+              "code": "30",
+              "date": "29 Dec 2016",
+              "day": "Thu",
+              "high": "41",
+              "low": "22",
+              "text": "Partly Cloudy"
+            }
+          ],
+          "description": "<![CDATA[<img src=\"http://l.yimg.com/a/i/us/we/52/32.gif\"/>\n<BR />\n<b>Current Conditions:</b>\n<BR />Sunny\n<BR />\n<BR />\n<b>Forecast:</b>\n<BR /> Tue - Sunny. High: 42Low: 17\n<BR /> Wed - Partly Cloudy. High: 38Low: 22\n<BR /> Thu - Mostly Sunny. High: 37Low: 16\n<BR /> Fri - Sunny. High: 40Low: 16\n<BR /> Sat - Sunny. High: 39Low: 17\n<BR />\n<BR />\n<a href=\"http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-839722/\">Full Forecast at Yahoo! Weather</a>\n<BR />\n<BR />\n(provided by <a href=\"http://www.weather.com\" >The Weather Channel</a>)\n<BR />\n]]>",
+          "guid": {
+            "isPermaLink": "false"
+          }
+        }
+      }
+    }
+  }
+}
