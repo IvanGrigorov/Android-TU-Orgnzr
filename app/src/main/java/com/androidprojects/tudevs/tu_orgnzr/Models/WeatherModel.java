@@ -9,6 +9,23 @@ public class WeatherModel {
     private String humidClassified;
     private double humidValue;
     private String rainClassified;
+    private String rainType;
+    private double rainProbability;
+    private String tempClassified;
+    private double tempValue;
+    private String windClassified;
+    private double windSpeedValue;
+
+    public WeatherModel(double rainProbabilty, double humidValue, double tempValue, double windSpeedValue) {
+        this.rainProbability = rainProbabilty;
+        this.humidValue = humidValue;
+        this.tempValue = tempValue;
+        this.windSpeedValue = windSpeedValue;
+    }
+
+    public WeatherModel() {
+
+    }
 
     public String getHumidClassified() {
         return humidClassified;
@@ -119,22 +136,5 @@ public class WeatherModel {
         else {
             this.setWindClassified("Strong");
         }
-    }
-
-    private String rainType;
-    private double rainProbability;
-    private String tempClassified;
-    private double tempValue;
-    private String windClassified;
-    private double windSpeedValue;
-
-    public WeatherModel(double rainProbabilty, double humidValue, double tempValue, double windSpeedValue) {
-        this.rainProbability = rainProbabilty;
-        this.humidValue = humidValue;
-        this.tempValue = tempValue;
-        this.windSpeedValue = windSpeedValue;
-    }
-    public WeatherModel() {
-
     }
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -37,6 +38,7 @@ import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.Requirements;
 import com.androidprojects.tudevs.tu_orgnzr.WeatherAnalyzer.TreeConstructor;
+import com.androidprojects.tudevs.tu_orgnzr.databinding.ActivityProfileBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,8 +52,8 @@ import java.util.Locale;
 public class Profile_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static Context currentContext;
     private static final int LOCATION_PERMISSION = 1;
+    private static Context currentContext;
     Criteria criteria;
     private ReadEventTableHelper readEventTableHelper;
     private double longitude;
@@ -81,12 +83,27 @@ public class Profile_Activity extends AppCompatActivity
         }
     };
 
+    // Make this method in new class
+    public static String loadJSONFromFile(String fileName) throws IOException {
+        String JSONString = null;
+
+        InputStream inputStream = currentContext.getAssets().open(fileName);
+        int size = inputStream.available();
+        byte[] buffer = new byte[size];
+        inputStream.read(buffer);
+        JSONString = new String(buffer, "UTF-8");
+        return JSONString;
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_);
+        ActivityProfileBinding activtyBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile_);
 
-        this.currentContext = this;
+        currentContext = this;
         // Creating Criteria how to use the location Manager
         String svc = Context.LOCATION_SERVICE;
         locationManager = (LocationManager) getSystemService(svc);
@@ -111,7 +128,7 @@ public class Profile_Activity extends AppCompatActivity
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION);
 
         }
-
+        //MainActivityBinding thisActivity = MainActivityBinding.inflate();
         this.locationManager.requestLocationUpdates(this.provider, 200, 10, locationListener);
 
 
@@ -122,7 +139,9 @@ public class Profile_Activity extends AppCompatActivity
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if (drawer != null) {
+            drawer.setDrawerListener(toggle);
+        }
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -184,7 +203,7 @@ public class Profile_Activity extends AppCompatActivity
         // TODO: Add weather info
         JSONObject weatherInfo = null;
         try {
-             weatherInfo = new JSONObject(this.loadJSONFromFile("Weather.json"));
+            weatherInfo = new JSONObject(loadJSONFromFile("Weather.json"));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -197,18 +216,14 @@ public class Profile_Activity extends AppCompatActivity
             double rainProbability = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("atmosphere").getDouble("rain");
             double temperature = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("condition").getDouble("temp");
             double wind = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("wind").getDouble("speed");
-            WeatherModel weatherModel = new WeatherModel();
-                    //new WeatherModel(rainProbability, humidity, temperature, wind);
+            WeatherModel weatherModel = new WeatherModel(rainProbability, humidity, temperature, wind);
             weatherModel.setHumidValue(humidity);
             weatherModel.setWindSpeedValue(wind);
             weatherModel.setTempValue(temperature);
             weatherModel.setRainProbability(rainProbability);
+            activtyBinding.appBar.profile.setWeatherModel(weatherModel);
             String[] valuesForTree = new String[] {weatherModel.getRainClassified(), weatherModel.getTempClassified(),
                     weatherModel.getHumidClassified(), weatherModel.getWindClassified() };
-            TextView temp = (TextView) findViewById(R.id.temp_one);
-            temp.setText(Double.toString(temperature));
-            TextView humid = (TextView) findViewById(R.id.temp_two);
-            humid.setText(Double.toString(humidity));
             TreeConstructor treeConstructor = new TreeConstructor();
             treeConstructor.setRootNode();
             treeConstructor.fillTreeFromJSON(treeConstructor.root);
@@ -220,8 +235,7 @@ public class Profile_Activity extends AppCompatActivity
             else {
                 activityMessage = "Stay home for comfort";
             }
-            TextView suggestion = (TextView) findViewById(R.id.suggestion);
-            suggestion.setText(activityMessage);
+            activtyBinding.appBar.profile.suggestion.setText(activityMessage);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -354,7 +368,6 @@ public class Profile_Activity extends AppCompatActivity
         return true;
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] requestingPermissions, int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION) {
@@ -388,7 +401,6 @@ public class Profile_Activity extends AppCompatActivity
 
         locationManager.removeUpdates(this.locationListener);
     }
-
 
     @Override
     public void onResume() {
@@ -475,24 +487,11 @@ public class Profile_Activity extends AppCompatActivity
         Cursor readTable = readProgrammTableHelper.readTheNextComingLectureInfo();
         readTable.moveToFirst();
         String buildingForTheNextLecture = readTable.getString(readTable.getColumnIndex(ProgrammSQLContract.SubjectTable.BUILDING_COLUMN)).replace(" ", "");
-        JSONObject coordinatesJSON = new JSONObject(this.loadJSONFromFile("Coordinates.json"));
+        JSONObject coordinatesJSON = new JSONObject(loadJSONFromFile("Coordinates.json"));
         double latitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("latitude");
         double longitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("longitude");
         readTable.close();
         return new double[]{latitude, longitude};
-
-    }
-
-    // Make this method in new class
-    public static String loadJSONFromFile(String fileName) throws IOException {
-        String JSONString = null;
-
-        InputStream inputStream = currentContext.getAssets().open(fileName);
-        int size = inputStream.available();
-        byte[] buffer = new byte[size];
-        inputStream.read(buffer);
-        JSONString = new String(buffer, "UTF-8");
-        return JSONString;
 
     }
 
