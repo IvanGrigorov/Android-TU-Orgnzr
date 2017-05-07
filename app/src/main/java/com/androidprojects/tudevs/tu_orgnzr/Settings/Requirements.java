@@ -13,12 +13,11 @@ public final class Requirements {
 
     private static final String mapsPackageName = "com.google.android.apps.maps";
 
-    public static boolean  isGoogleMapsInstalled(Context context) {
+    public static boolean isGoogleMapsInstalled(Context context) {
         try {
             ApplicationInfo info = context.getPackageManager().getApplicationInfo(mapsPackageName, 0);
             return true;
-        }
-        catch(PackageManager.NameNotFoundException exception) {
+        } catch (PackageManager.NameNotFoundException exception) {
             return false;
         }
     }

@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
@@ -21,10 +18,10 @@ import java.util.Date;
 /**
  * Created by Ivan Grigorov on 14/08/2016.
  */
-public class AddPhotoToNoteEvent  extends AbstractEvent implements View.OnClickListener{
+public class AddPhotoToNoteEvent extends AbstractEvent implements View.OnClickListener {
 
     public static final int REQUEST_TAKE_PHOTO = 2;
-
+    String mCurrentPhotoPath;
 
     public AddPhotoToNoteEvent(Context context, Activity activity) {
         super(context, activity);
@@ -35,8 +32,6 @@ public class AddPhotoToNoteEvent  extends AbstractEvent implements View.OnClickL
         dispatchTakePictureIntent();
 //        galleryAddPic();
     }
-
-    String mCurrentPhotoPath;
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -91,7 +86,6 @@ public class AddPhotoToNoteEvent  extends AbstractEvent implements View.OnClickL
         mediaScanIntent.setData(contentUri);
         this.activity.sendBroadcast(mediaScanIntent);
     }
-
 
 
 }

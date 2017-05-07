@@ -1,58 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_profile_"
-    tools:context="com.androidprojects.tudevs.tu_orgnzr.Profile_Activity">
-    <TextView
-        android:id="@+id/Greeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#33cc33"
-        android:textSize="25dp"
-        android:layout_marginLeft="1dp"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:label="Main">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="weatherModel"
+            type="com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="#00ff99">
-        <TextView
-            android:id="@+id/Day_Of_Week"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textSize="25dp"
-            android:textColor="#00334d"
-            android:gravity="center"
-            android:background="#00ff99"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/Date"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textSize="35dp"
-            android:textColor="#00334d"
-            android:gravity="center"
-            android:background="#00ff99"
-            android:layout_weight="2"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/Latest_Event_View"
-        android:layout_marginTop="15dp">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.androidprojects.tudevs.tu_orgnzr.Profile_Activity"
+        tools:showIn="@layout/app_bar_profile_">
 
-    </LinearLayout>
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_bg"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/weather"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/gradient_bg">
+
+                    <ImageView
+                        android:id="@+id/weather_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:src="@mipmap/ic_profile_main_weather" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/weather_image"
+                        android:gravity="center_horizontal"
+                        android:text="@string/Weather_res"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/suggestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/weather_image"
+                        android:width="0dip"
+                        android:gravity="center_horizontal"
+                        android:textSize="20dp" />
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/weather_graph"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_below="@id/suggestion"
+                        android:background="@drawable/gradient_lighter_bg" />
+
+                    <TableLayout
+                        android:id="@+id/weather_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/weather_graph"
+                        android:background="@drawable/gradient_bg"
+                        android:padding="3dp"
+                        android:stretchColumns="*">
+
+                        <TableRow
+                            android:background="#f7f1f1"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/gradient_lighter_bg"
+                                android:orientation="vertical"
+                                android:padding="7dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:drawableLeft="@drawable/ic_temp"
+                                    android:gravity="center_horizontal"
+                                    android:text="Temp:"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:gravity="center_horizontal"
+                                    android:text="@{Double.toString(weatherModel.getTempValue()) + ` F`}"
+                                    android:textSize="15dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/gradient_lighter_bg"
+                                android:orientation="vertical"
+                                android:padding="7dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:drawableLeft="@drawable/ic_humid"
+                                    android:gravity="center_horizontal"
+                                    android:text="Humid:"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:gravity="center_horizontal"
+                                    android:text="@{Double.toString(weatherModel.getHumidValue()) + ` in`}"
+                                    android:textSize="15dp" />
+
+                            </LinearLayout>
+                        </TableRow>
+
+                        <TableRow
+                            android:background="#f7f1f1"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/gradient_lighter_bg"
+                                android:orientation="vertical"
+                                android:padding="7dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:drawableStart="@drawable/ic_rain"
+                                    android:gravity="center_horizontal"
+                                    android:text="Rain Prob:"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:gravity="center_horizontal"
+                                    android:text="@{Double.toString(weatherModel.getRainProbability() / 100) + ` %`}"
+                                    android:textSize="15dp" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/gradient_lighter_bg"
+                                android:orientation="vertical"
+                                android:padding="7dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:drawableStart="@drawable/ic_rain_type"
+                                    android:gravity="center_horizontal"
+                                    android:text="Rain Type:"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:gravity="center_horizontal"
+                                    android:text="@{weatherModel.getRainType()}"
+                                    android:textSize="15dp" />
+                            </LinearLayout>
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_height="wrap_content"
+                            android:background="#f7f1f1"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/gradient_lighter_bg"
+                                android:orientation="vertical"
+                                android:padding="7dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:drawableStart="@drawable/ic_wind"
+                                    android:gravity="center_horizontal"
+                                    android:text="Wind Speed:"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:gravity="center_horizontal"
+                                    android:text="@{Double.toString(weatherModel.getWindSpeedValue()) + ` mph`}"
+                                    android:textSize="15dp" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/gradient_lighter_bg"
+                                android:orientation="vertical"
+                                android:padding="7dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:drawableStart="@drawable/ic_web"
+                                    android:gravity="center_horizontal"
+                                    android:text="Sources:"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:width="0dip"
+                                    android:gravity="center_horizontal"
+                                    android:text="Yahoo Inc."
+                                    android:textSize="15dp" />
+
+
+                            </LinearLayout>
+                        </TableRow>
+                    </TableLayout>
+                </RelativeLayout>
+            </ScrollView>
+
+            <TextView
+
+                android:id="@+id/Greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:textColor="#33cc33"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="#00ff99"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Day_Of_Week"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_weight="1"
+                    android:background="#00ff99"
+                    android:gravity="center"
+                    android:textColor="#00334d"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:background="#00ff99"
+                    android:gravity="center"
+                    android:textColor="#00334d"
+                    android:textSize="25dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Latest_Event_View"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.androidprojects.tudevs.tu_orgnzr.MainActivity">
 
     <!-- Adding Header -->
 
     <LinearLayout
         android:id="@+id/header"
-        android:background="#33cc33"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="#33cc33"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_width="match_parent">
+        android:orientation="vertical">
 
         <TextView
-            android:textSize="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/LogIn_Ask">
-        </TextView>
+            android:text="@string/LogIn_Ask"
+            android:textSize="30dp"></TextView>
 
     </LinearLayout>
 
@@ -31,45 +29,42 @@
 
     <LinearLayout
         android:id="@+id/main_part"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
-        android:layout_width="match_parent">
+        android:orientation="vertical">
 
         <TextView
-            android:textSize="40dp"
-            android:textColor="#33cc33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/GiveUsername">
-        </TextView>
+            android:text="@string/GiveUsername"
+            android:textColor="#33cc33"
+            android:textSize="40dp"></TextView>
 
         <EditText
             android:id="@+id/Username_Input"
-            android:textSize="35dp"
-            android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="@string/Usn_Hint"
             android:inputType="text"
-            android:hint="@string/Usn_Hint">
-        </EditText>
+            android:textSize="35dp"></EditText>
 
         <TextView
             android:layout_width="wrap_content"
-            android:textColor="#33cc33"
-            android:textSize="40dp"
             android:layout_height="wrap_content"
-            android:text="@string/GivePassword">
-        </TextView>
+            android:text="@string/GivePassword"
+            android:textColor="#33cc33"
+            android:textSize="40dp"></TextView>
 
         <EditText
             android:id="@+id/Password_Input"
-            android:textSize="35dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_marginBottom="15dp"
             android:hint="@string/Psw_Hint"
-            android:layout_marginBottom="15dp">
+            android:inputType="text"
+            android:textSize="35dp">
 
         </EditText>
 
@@ -79,7 +74,7 @@
             android:layout_height="wrap_content"
             android:text="@string/LogIn_Button_Text"
             android:textColor="#33cc33"
-            android:textSize="25dp"/>
+            android:textSize="25dp" />
     </LinearLayout>
 
 

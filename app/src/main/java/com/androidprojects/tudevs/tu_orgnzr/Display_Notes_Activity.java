@@ -2,19 +2,17 @@ package com.androidprojects.tudevs.tu_orgnzr;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
 import com.androidprojects.tudevs.tu_orgnzr.Events.NewNoteOnClickEvent;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
-import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 
 public class Display_Notes_Activity extends AppCompatActivity {
 

@@ -43,7 +43,7 @@ public class TuesdayFragment extends Fragment {
 
         // Read all the rows from the database and insert the information in the activity
         LinearLayout importedTable = (LinearLayout) tuesday.findViewById(R.id.Imported_Table);
-        TableLayout tableContainer = (TableLayout)importedTable.findViewById(R.id.Programm_Table);
+        TableLayout tableContainer = (TableLayout) importedTable.findViewById(R.id.Programm_Table);
 
         String currentLecture = "";
         String currentColor = ColorsEnum.randomColor().getValue();

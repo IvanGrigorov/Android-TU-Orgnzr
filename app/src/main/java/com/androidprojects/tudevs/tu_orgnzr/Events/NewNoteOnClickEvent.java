@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.View;
 
 import com.androidprojects.tudevs.tu_orgnzr.Create_New_Note_Activity;
-import com.androidprojects.tudevs.tu_orgnzr.Edit_Program_Mode;
 
 /**
  * Created by Ivan Grigorov on 28/04/2016.
@@ -14,15 +13,15 @@ import com.androidprojects.tudevs.tu_orgnzr.Edit_Program_Mode;
  */
 public class NewNoteOnClickEvent extends AbstractEvent implements View.OnClickListener {
 
-        public NewNoteOnClickEvent(Context context, Activity activity) {
-            super(context, activity);
-        }
+    public NewNoteOnClickEvent(Context context, Activity activity) {
+        super(context, activity);
+    }
 
-        @Override
-        public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 
-            Intent intent = new Intent(this.context, Create_New_Note_Activity.class);
-            this.context.startActivity(intent);
-            this.activity.finish();
-        }
+        Intent intent = new Intent(this.context, Create_New_Note_Activity.class);
+        this.context.startActivity(intent);
+        this.activity.finish();
+    }
 }

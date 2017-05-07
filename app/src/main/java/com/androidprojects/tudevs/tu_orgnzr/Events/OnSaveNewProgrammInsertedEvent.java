@@ -11,8 +11,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
-import com.androidprojects.tudevs.tu_orgnzr.DataObjects.ProgrammRow;
-import com.androidprojects.tudevs.tu_orgnzr.Display_Notes_Activity;
 import com.androidprojects.tudevs.tu_orgnzr.Programm_Set_Activity;
 import com.androidprojects.tudevs.tu_orgnzr.R;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ImportNewSubjectHelper;
@@ -41,7 +39,7 @@ public class OnSaveNewProgrammInsertedEvent extends AbstractEvent implements Vie
         Spinner day_of_week = (Spinner) this.activity.findViewById(R.id.Day_Of_Week_Spinner);
 
         // Collect the information for each row(hour block) and add it as new input to the Database(Programm Table)
-        for (int i=0; i < count - 1; i++) {
+        for (int i = 0; i < count - 1; i++) {
             View tableRow = this.container.getChildAt(i);
             View time = ((TableRow) tableRow).getChildAt(0);
             View spinner = ((TableRow) tableRow).getChildAt(1);
@@ -49,7 +47,7 @@ public class OnSaveNewProgrammInsertedEvent extends AbstractEvent implements Vie
             View lecturer = ((TableRow) tableRow).getChildAt(2);
             ImportNewSubjectHelper newSubjectHelper = new ImportNewSubjectHelper(v.getContext());
             newSubjectHelper.getContentValues().put(ProgrammSQLContract.SubjectTable.LECTURE_NAME_COLUMN, ((Spinner) spinner).getSelectedItem().toString());
-            newSubjectHelper.getContentValues().put(ProgrammSQLContract.SubjectTable.DAY_OF_WEEK_COLUMN, ((Spinner) day_of_week).getSelectedItem().toString());
+            newSubjectHelper.getContentValues().put(ProgrammSQLContract.SubjectTable.DAY_OF_WEEK_COLUMN, day_of_week.getSelectedItem().toString());
             newSubjectHelper.getContentValues().put(ProgrammSQLContract.SubjectTable.STARTS_AT_COLUMN, ((TextView) time).getText().toString());
             newSubjectHelper.getContentValues().put(ProgrammSQLContract.SubjectTable.ENDS_AT_COLUMN, ((TextView) time).getText().toString());
             newSubjectHelper.getContentValues().put(ProgrammSQLContract.SubjectTable.BUILDING_COLUMN, ((Spinner) building_spinner).getSelectedItem().toString());

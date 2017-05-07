@@ -11,11 +11,11 @@ import com.androidprojects.tudevs.tu_orgnzr.Interfaces.IInsertValuesToDatabase;
  * Created by Ivan Grigorov on 23/04/2016.
  * SQL Query builder to import new subject in database
  */
-public class ImportNewSubjectHelper implements IInsertValuesToDatabase{
+public class ImportNewSubjectHelper implements IInsertValuesToDatabase {
 
+    ContentValues contentValues = new ContentValues();
     private CreateDatabaseHelper createDatabasHelper;
     private SQLiteDatabase db;
-    ContentValues contentValues = new ContentValues();
     private long newRowId;
 
     public ImportNewSubjectHelper(Context context) {
@@ -23,7 +23,9 @@ public class ImportNewSubjectHelper implements IInsertValuesToDatabase{
         this.db = this.createDatabasHelper.getWritableDatabase();
     }
 
-    public ContentValues getContentValues() { return contentValues; }
+    public ContentValues getContentValues() {
+        return contentValues;
+    }
 
     public void InsertValues() {
         this.newRowId = db.insert(ProgrammSQLContract.SubjectTable.TABLE_NAME, null, this.contentValues);

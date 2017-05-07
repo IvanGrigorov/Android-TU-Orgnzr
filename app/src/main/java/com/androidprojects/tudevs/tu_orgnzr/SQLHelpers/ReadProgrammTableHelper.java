@@ -1,6 +1,5 @@
 package com.androidprojects.tudevs.tu_orgnzr.SQLHelpers;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -95,11 +94,10 @@ public class ReadProgrammTableHelper {
                 null,
                 null
         );
-        if (c.getCount() <= 0 ) {
+        if (c.getCount() <= 0) {
             c.close();
             return false;
-        }
-        else {
+        } else {
             c.close();
             return true;
         }
