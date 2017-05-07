@@ -1,4 +1,4 @@
-package com.androidprojects.tudevs.tu_orgnzr.DataObjects;
+package com.androidprojects.tudevs.tu_orgnzr.Models.ProgrammModels;
 
 /**
  * Created by Ivan Grigorov on 23/04/2016.

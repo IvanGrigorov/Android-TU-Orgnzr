@@ -8,7 +8,7 @@
 
         <variable
             name="weatherModel"
-            type="com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModel" />
+            type="com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel" />
     </data>
 
     <ScrollView
@@ -68,11 +68,18 @@
                         android:gravity="center_horizontal"
                         android:textSize="20dp" />
 
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/weather_graph"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_below="@id/suggestion"
+                        android:background="@drawable/gradient_lighter_bg" />
+
                     <TableLayout
                         android:id="@+id/weather_table"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/suggestion"
+                        android:layout_below="@+id/weather_graph"
                         android:background="@drawable/gradient_bg"
                         android:padding="3dp"
                         android:stretchColumns="*">
@@ -155,6 +162,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:width="0dip"
+                                    android:drawableStart="@drawable/ic_rain"
                                     android:gravity="center_horizontal"
                                     android:text="Rain Prob:"
                                     android:textSize="15dp" />
@@ -183,6 +191,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:width="0dip"
+                                    android:drawableStart="@drawable/ic_rain_type"
                                     android:gravity="center_horizontal"
                                     android:text="Rain Type:"
                                     android:textSize="15dp" />
@@ -215,6 +224,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:width="0dip"
+                                    android:drawableStart="@drawable/ic_wind"
                                     android:gravity="center_horizontal"
                                     android:text="Wind Speed:"
                                     android:textSize="15dp" />
@@ -243,6 +253,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:width="0dip"
+                                    android:drawableStart="@drawable/ic_web"
                                     android:gravity="center_horizontal"
                                     android:text="Sources:"
                                     android:textSize="15dp" />

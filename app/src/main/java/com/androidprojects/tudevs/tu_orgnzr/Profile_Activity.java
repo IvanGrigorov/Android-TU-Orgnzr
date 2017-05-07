@@ -33,12 +33,14 @@ import android.widget.Toast;
 
 import com.androidprojects.tudevs.tu_orgnzr.Config.Config;
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
-import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModel;
+import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
+import com.androidprojects.tudevs.tu_orgnzr.Settings.GraphDesigner;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.Requirements;
 import com.androidprojects.tudevs.tu_orgnzr.WeatherAnalyzer.TreeConstructor;
 import com.androidprojects.tudevs.tu_orgnzr.databinding.ActivityProfileBinding;
+import com.jjoe64.graphview.series.DataPoint;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +50,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.zip.DataFormatException;
 
 public class Profile_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -212,31 +215,28 @@ public class Profile_Activity extends AppCompatActivity
 
         //weatherInfo
         try {
-            double humidity = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("atmosphere").getDouble("humidity");
-            double rainProbability = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("atmosphere").getDouble("rain");
-            double temperature = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("condition").getDouble("temp");
-            double wind = weatherInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("wind").getDouble("speed");
-            WeatherModel weatherModel = new WeatherModel(rainProbability, humidity, temperature, wind);
-            weatherModel.setHumidValue(humidity);
-            weatherModel.setWindSpeedValue(wind);
-            weatherModel.setTempValue(temperature);
-            weatherModel.setRainProbability(rainProbability);
+            WeatherModel weatherModel = new WeatherModel();
+            weatherModel.fillModelWithJSONData(weatherInfo);
+            GraphDesigner.designGraph(activtyBinding.appBar.profile.weatherGraph,
+                    weatherModel.provideWeatherWeekInfoForGraph(new DataPoint[10], new DataPoint[10]),
+                    weatherModel.getDayNamesForWeeks());
             activtyBinding.appBar.profile.setWeatherModel(weatherModel);
-            String[] valuesForTree = new String[] {weatherModel.getRainClassified(), weatherModel.getTempClassified(),
-                    weatherModel.getHumidClassified(), weatherModel.getWindClassified() };
+            String[] valuesForTree = new String[]{weatherModel.getRainClassified(), weatherModel.getTempClassified(),
+                    weatherModel.getHumidClassified(), weatherModel.getWindClassified()};
             TreeConstructor treeConstructor = new TreeConstructor();
             treeConstructor.setRootNode();
             treeConstructor.fillTreeFromJSON(treeConstructor.root);
-            String outcome =  treeConstructor.generateOutcome(treeConstructor.root, valuesForTree, 0);
+            String outcome = treeConstructor.generateOutcome(treeConstructor.root, valuesForTree, 0);
             String activityMessage = "";
             if (outcome == "Yes") {
                 activityMessage = "Enjoy the day";
-            }
-            else {
+            } else {
                 activityMessage = "Stay home for comfort";
             }
             activtyBinding.appBar.profile.suggestion.setText(activityMessage);
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (DataFormatException e) {
             e.printStackTrace();
         }
         // TODO: ADD info about the future activity

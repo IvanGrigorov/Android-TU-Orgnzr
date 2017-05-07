@@ -1,4 +1,15 @@
-package com.androidprojects.tudevs.tu_orgnzr.Models;
+package com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels;
+
+import com.jjoe64.graphview.series.DataPoint;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.AbstractList;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by Ivan Grigorov on 30/04/2017.
@@ -15,6 +26,9 @@ public class WeatherModel {
     private double tempValue;
     private String windClassified;
     private double windSpeedValue;
+    private double[] maxTempForWeek;
+    private double[] minTempForWeek;
+    private String[] dayNamesForWeeks;
 
     public WeatherModel(double rainProbabilty, double humidValue, double tempValue, double windSpeedValue) {
         this.rainProbability = rainProbabilty;
@@ -25,6 +39,13 @@ public class WeatherModel {
 
     public WeatherModel() {
 
+    }
+
+    public String[] getDayNamesForWeeks() throws DataFormatException {
+        if (this.dayNamesForWeeks == null) {
+            throw new DataFormatException("Missing information for the week. You should call the fillModelWithJSON Method first.");
+        }
+        return this.dayNamesForWeeks;
     }
 
     public String getHumidClassified() {
@@ -135,6 +156,44 @@ public class WeatherModel {
         }
         else {
             this.setWindClassified("Strong");
+        }
+    }
+
+    public AbstractList<AbstractMap.SimpleEntry<String, DataPoint[]>> provideWeatherWeekInfoForGraph(DataPoint[] maxTemps, DataPoint[] minTemps) throws DataFormatException {
+
+        if ((this.dayNamesForWeeks == null) || (this.maxTempForWeek == null) || (this.minTempForWeek == null)) {
+            throw new DataFormatException("Missing information for the week. You should call the fillModelWithJSON Method first.");
+        } else {
+            for (int i = 0; i < this.dayNamesForWeeks.length; i++) {
+                maxTemps[i] = new DataPoint(i, this.maxTempForWeek[i]);
+                minTemps[i] = new DataPoint(i, this.minTempForWeek[i]);
+            }
+        }
+        ArrayList<AbstractMap.SimpleEntry<String, DataPoint[]>> tempValues = new ArrayList<AbstractMap.SimpleEntry<String, DataPoint[]>>();
+        tempValues.add(new AbstractMap.SimpleEntry<String, DataPoint[]>("max", maxTemps));
+        tempValues.add(new AbstractMap.SimpleEntry<String, DataPoint[]>("min", minTemps));
+
+        return tempValues;
+    }
+
+    public void fillModelWithJSONData(JSONObject jsonInfo) throws JSONException {
+        this.maxTempForWeek = new double[10];
+        this.minTempForWeek = new double[10];
+        this.dayNamesForWeeks = new String[10];
+        double humidity = jsonInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("atmosphere").getDouble("humidity");
+        double rainProbability = jsonInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("atmosphere").getDouble("rain");
+        double temperature = jsonInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("condition").getDouble("temp");
+        double wind = jsonInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("wind").getDouble("speed");
+        this.setHumidValue(humidity);
+        this.setWindSpeedValue(wind);
+        this.setTempValue(temperature);
+        this.setRainProbability(rainProbability);
+        JSONArray weekForecast = jsonInfo.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast");
+        for (int i = 0; i < weekForecast.length(); i++) {
+            JSONObject dayForecast = weekForecast.getJSONObject(i);
+            this.maxTempForWeek[i] = dayForecast.getDouble("high");
+            this.minTempForWeek[i] = dayForecast.getDouble("low");
+            this.dayNamesForWeeks[i] = dayForecast.getString("day");
         }
     }
 }
