@@ -52,13 +52,25 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.zip.DataFormatException;
 
+import javax.inject.Inject;
+
 public class Profile_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int LOCATION_PERMISSION = 1;
+
+    // Injecting Dependencies
     private static Context currentContext;
+    @Inject
+    public ReadEventTableHelper readEventTableHelper;
+    @Inject
+    public ReadProgrammTableHelper readProgrammTableHelper;
+    @Inject
+    public WeatherModel weatherModel;
+
+
     Criteria criteria;
-    private ReadEventTableHelper readEventTableHelper;
+    //private ReadEventTableHelper readEventTableHelper;
     private double longitude;
     private double latitude;
     private String provider;
@@ -106,6 +118,7 @@ public class Profile_Activity extends AppCompatActivity
         setContentView(R.layout.activity_profile_);
         ActivityProfileBinding activtyBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile_);
 
+        this.injectDependencies();
         currentContext = this;
         // Creating Criteria how to use the location Manager
         String svc = Context.LOCATION_SERVICE;
@@ -176,7 +189,8 @@ public class Profile_Activity extends AppCompatActivity
 
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        this.readEventTableHelper = new ReadEventTableHelper(this);
+        // here
+        //this.readEventTableHelper = new ReadEventTableHelper(this);
         Cursor allEvents = this.readEventTableHelper.readLatestActivity();
 
         if (allEvents != null) {
@@ -204,6 +218,7 @@ public class Profile_Activity extends AppCompatActivity
         }
 
         // TODO: Add weather info
+        //here
         JSONObject weatherInfo = null;
         try {
             weatherInfo = new JSONObject(loadJSONFromFile("Weather.json"));
@@ -215,7 +230,7 @@ public class Profile_Activity extends AppCompatActivity
 
         //weatherInfo
         try {
-            WeatherModel weatherModel = new WeatherModel();
+            //WeatherModel weatherModel = new WeatherModel();
             weatherModel.fillModelWithJSONData(weatherInfo);
             GraphDesigner.designGraph(activtyBinding.appBar.profile.weatherGraph,
                     weatherModel.provideWeatherWeekInfoForGraph(new DataPoint[10], new DataPoint[10]),
@@ -240,6 +255,10 @@ public class Profile_Activity extends AppCompatActivity
             e.printStackTrace();
         }
         // TODO: ADD info about the future activity
+    }
+
+    private void injectDependencies() {
+        ((Adnroid_TUOrgnzr) getApplication()).getComponent().inject(this);
     }
 
     @Override
@@ -480,11 +499,11 @@ public class Profile_Activity extends AppCompatActivity
             currentHour = 7;
             targetMinutes = 30;
         }
-
+        //here
         String targetSqlSelectValue = Integer.toString(currentHour) + ":" + Integer.toString(targetMinutes);
-        ReadProgrammTableHelper readProgrammTableHelper = new ReadProgrammTableHelper(this, targetSqlSelectValue);
+        //ReadProgrammTableHelper readProgrammTableHelper = new ReadProgrammTableHelper(this);
 
-        Cursor readTable = readProgrammTableHelper.readTheNextComingLectureInfo();
+        Cursor readTable = readProgrammTableHelper.readTheNextComingLectureInfo(targetSqlSelectValue);
         readTable.moveToFirst();
         String buildingForTheNextLecture = readTable.getString(readTable.getColumnIndex(ProgrammSQLContract.SubjectTable.BUILDING_COLUMN)).replace(" ", "");
         JSONObject coordinatesJSON = new JSONObject(loadJSONFromFile("Coordinates.json"));

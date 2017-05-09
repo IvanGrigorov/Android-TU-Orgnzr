@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
 
+import javax.inject.Inject;
+
 /**
  * Created by Ivan Grigorov on 23/04/2016.
  * SQL Query builder to read subjects from database
@@ -17,18 +19,17 @@ public class ReadProgrammTableHelper {
 
     private CreateDatabaseHelper createDatabaseHelper;
     private SQLiteDatabase db;
-    private String selectionArgs;
 
     private long newRowId;
 
-    public ReadProgrammTableHelper(Context context, String selArgs) {
+    @Inject
+    public ReadProgrammTableHelper(Context context) {
         this.createDatabaseHelper = new CreateDatabaseHelper(context);
         this.db = this.createDatabaseHelper.getReadableDatabase();
-        this.selectionArgs = selArgs;
     }
 
 
-    public Cursor readRows() {
+    public Cursor readRows(String selectionArgs) {
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
@@ -47,7 +48,7 @@ public class ReadProgrammTableHelper {
 
         String selection = ProgrammSQLContract.SubjectTable.DAY_OF_WEEK_COLUMN + " = ?";
 
-        String[] selArgs = {this.selectionArgs};
+        String[] selArgs = {selectionArgs};
         Cursor c = db.query(
                 ProgrammSQLContract.SubjectTable.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
@@ -61,11 +62,11 @@ public class ReadProgrammTableHelper {
         return c;
     }
 
-    public Cursor readTheNextComingLectureInfo() {
+    public Cursor readTheNextComingLectureInfo(String selectionArgs) {
         String[] projection = {ProgrammSQLContract.SubjectTable.BUILDING_COLUMN};
 
 
-        String[] selArgs = {this.selectionArgs + "%"};
+        String[] selArgs = {selectionArgs + "%"};
         String selection = ProgrammSQLContract.SubjectTable.STARTS_AT_COLUMN + " LIKE ?";
         Cursor c = this.db.query(
                 ProgrammSQLContract.SubjectTable.TABLE_NAME,

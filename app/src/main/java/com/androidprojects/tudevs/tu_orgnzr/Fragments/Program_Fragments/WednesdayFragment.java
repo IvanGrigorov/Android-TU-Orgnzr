@@ -36,10 +36,10 @@ public class WednesdayFragment extends Fragment {
         // Inflate the XML for the fragment
         View wednesday = inflater.inflate(R.layout.fragment_wednesday_program, container, false);
         TextView day_of_week_textview = (TextView) wednesday.findViewById(R.id.Day_Of_Week);
-        readProgrammHelper = new ReadProgrammTableHelper(wednesday.getContext(), day_of_week_textview.getText().toString());
+        readProgrammHelper = new ReadProgrammTableHelper(wednesday.getContext());
         Button editButton = (Button) wednesday.findViewById(R.id.Edit_Button);
         editButton.setOnClickListener(new EditProgrammOnClickEvent(getContext(), getActivity()));
-        Cursor allSubjects = readProgrammHelper.readRows();
+        Cursor allSubjects = readProgrammHelper.readRows(day_of_week_textview.getText().toString());
 
         // Read all the rows from the database and insert the information in the activity
         LinearLayout imprtedTable = (LinearLayout) wednesday.findViewById(R.id.Imported_Table);

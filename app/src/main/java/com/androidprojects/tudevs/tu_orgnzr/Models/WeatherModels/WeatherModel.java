@@ -11,6 +11,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.zip.DataFormatException;
 
+import javax.inject.Inject;
+
 /**
  * Created by Ivan Grigorov on 30/04/2017.
  * Contact at ivangrigorov9 at gmail.com
@@ -30,13 +32,13 @@ public class WeatherModel {
     private double[] minTempForWeek;
     private String[] dayNamesForWeeks;
 
-    public WeatherModel(double rainProbabilty, double humidValue, double tempValue, double windSpeedValue) {
-        this.rainProbability = rainProbabilty;
-        this.humidValue = humidValue;
-        this.tempValue = tempValue;
-        this.windSpeedValue = windSpeedValue;
-    }
-
+    //public WeatherModel(double rainProbabilty, double humidValue, double tempValue, double windSpeedValue) {
+    //   this.rainProbability = rainProbabilty;
+    //   this.humidValue = humidValue;
+    //   this.tempValue = tempValue;
+    //    this.windSpeedValue = windSpeedValue;
+    //}
+    @Inject
     public WeatherModel() {
 
     }

@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
 
+import javax.inject.Inject;
+
 /**
  * Created by Ivan Grigorov on 30/04/2016.
  * SQL Query builder to read events from database
@@ -19,6 +21,7 @@ public class ReadEventTableHelper {
 
     private long newRowId;
 
+    @Inject
     public ReadEventTableHelper(Context context) {
         this.createEventDatabasHelper = new CreateEventDatabaseHelper(context);
         this.db = this.createEventDatabasHelper.getReadableDatabase();
