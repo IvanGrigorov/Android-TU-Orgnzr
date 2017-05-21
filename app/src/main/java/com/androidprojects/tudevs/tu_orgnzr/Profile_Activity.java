@@ -8,8 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +19,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,25 +31,24 @@ import android.widget.Toast;
 import com.androidprojects.tudevs.tu_orgnzr.Config.Config;
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
 import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel;
+import com.androidprojects.tudevs.tu_orgnzr.Presenters.ProfileActivityPresenter;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
+import com.androidprojects.tudevs.tu_orgnzr.Settings.CustomLocationListener;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.GraphDesigner;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.Requirements;
-import com.androidprojects.tudevs.tu_orgnzr.WeatherAnalyzer.TreeConstructor;
 import com.androidprojects.tudevs.tu_orgnzr.databinding.ActivityProfileBinding;
 import com.jjoe64.graphview.series.DataPoint;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.zip.DataFormatException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class Profile_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,76 +56,38 @@ public class Profile_Activity extends AppCompatActivity
     private static final int LOCATION_PERMISSION = 1;
 
     // Injecting Dependencies
-    private static Context currentContext;
+
     @Inject
     public ReadEventTableHelper readEventTableHelper;
     @Inject
     public ReadProgrammTableHelper readProgrammTableHelper;
     @Inject
     public WeatherModel weatherModel;
-
-
+    @Inject
+    @Named("Location")
+    public LocationManager locationManager;
+    @Inject
     Criteria criteria;
+    // Create Listener to listen and update location
+    @Inject
+    ProfileActivityPresenter profileActivityPresenter;
+    ActivityProfileBinding activtyBinding;
     //private ReadEventTableHelper readEventTableHelper;
     private double longitude;
     private double latitude;
     private String provider;
-    private LocationManager locationManager;
-    // Create Listener to listen and update location
-    private final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            registerLocationListeners();
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
-    // Make this method in new class
-    public static String loadJSONFromFile(String fileName) throws IOException {
-        String JSONString = null;
-
-        InputStream inputStream = currentContext.getAssets().open(fileName);
-        int size = inputStream.available();
-        byte[] buffer = new byte[size];
-        inputStream.read(buffer);
-        JSONString = new String(buffer, "UTF-8");
-        return JSONString;
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_);
-        ActivityProfileBinding activtyBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile_);
-
-        this.injectDependencies();
-        currentContext = this;
+        this.activtyBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile_);
+        injectComponents();
+        profileActivityPresenter.attach(this);
+        //this.injectDependencies();
         // Creating Criteria how to use the location Manager
-        String svc = Context.LOCATION_SERVICE;
-        locationManager = (LocationManager) getSystemService(svc);
-        this.criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setSpeedRequired(false);
-        criteria.setCostAllowed(true);
+
         if (this.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) && Requirements.hasInternetConnectivity(this)) {
             this.provider = (this.locationManager.getProvider(LocationManager.NETWORK_PROVIDER)).getName();
         } else {
@@ -145,18 +103,18 @@ public class Profile_Activity extends AppCompatActivity
 
         }
         //MainActivityBinding thisActivity = MainActivityBinding.inflate();
-        this.locationManager.requestLocationUpdates(this.provider, 200, 10, locationListener);
+        this.locationManager.requestLocationUpdates(this.provider, 200, 10, profileActivityPresenter.getLocationListener());
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(activtyBinding.appBar.toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        if (drawer != null) {
-            drawer.setDrawerListener(toggle);
+                this, activtyBinding.drawerLayout, activtyBinding.appBar.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        if (activtyBinding.drawerLayout != null) {
+            activtyBinding.drawerLayout.setDrawerListener(toggle);
         }
         toggle.syncState();
 
@@ -170,96 +128,32 @@ public class Profile_Activity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        TextView greeting_Message = (TextView) findViewById(R.id.Greeting);
-        greeting_Message.setText(String.format(getString(R.string.GreetMessage), value));
+        //TextView greeting_Message = (TextView) findViewById(R.id.Greeting);
+        activtyBinding.appBar.profile.Greeting.setText(String.format(getString(R.string.GreetMessage), value));
 
         // TODO: Add weather details
 
-        String currentDate = new SimpleDateFormat("dd:MM:yyyy").format(Calendar.getInstance().getTime());
-        String currentDay = new SimpleDateFormat("EEEE").format(Calendar.getInstance().getTime());
+        //String currentDate = new SimpleDateFormat("dd:MM:yyyy").format(Calendar.getInstance().getTime());
+        //String currentDay = new SimpleDateFormat("EEEE").format(Calendar.getInstance().getTime());
 
-        TextView date_View = (TextView) findViewById(R.id.Date);
-        date_View.setText(currentDate);
+        //TextView date_View = (TextView) findViewById(R.id.Date);
+        //activtyBinding.appBar.profile.Date.setText(currentDate);
 
-        TextView day_of_week_View = (TextView) findViewById(R.id.Day_Of_Week);
-        day_of_week_View.setText(currentDay);
+        //TextView day_of_week_View = (TextView) findViewById(R.id.Day_Of_Week);
+        //activtyBinding.appBar.profile.DayOfWeek.setText(currentDay);
 
+        this.profileActivityPresenter.updateWeatherInfo();
+        this.profileActivityPresenter.provideWeatherSuggestion();
+        this.profileActivityPresenter.readLatestActivity();
+        this.profileActivityPresenter.getCurrentDateAndDay();
 
-        // Adding latest event
-
-        LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        // here
-        //this.readEventTableHelper = new ReadEventTableHelper(this);
-        Cursor allEvents = this.readEventTableHelper.readLatestActivity();
-
-        if (allEvents != null) {
-            try {
-                while (allEvents.moveToNext()) {
-                    View v = vi.inflate(R.layout.note_inflation_template, null);
-
-                    // Fill in any details dynamically here
-                    TextView note_title = (TextView) v.findViewById(R.id.Note_Title);
-                    note_title.setText(allEvents.getString(allEvents.getColumnIndex(ProgrammSQLContract.EventsTable.EVENTS_NAME_COLUMN)));
-
-                    TextView note_deascription = (TextView) v.findViewById(R.id.Note_Description);
-                    note_deascription.setText(allEvents.getString(allEvents.getColumnIndex(ProgrammSQLContract.EventsTable.EVENT_DESCRIPTION)));
-
-                    TextView note_date = (TextView) v.findViewById(R.id.Note_Date);
-                    note_date.setText(allEvents.getString(allEvents.getColumnIndex(ProgrammSQLContract.EventsTable.EVENT_DATE)));
-
-                    // Insert into main view
-                    ViewGroup insertPoint = (ViewGroup) findViewById(R.id.Latest_Event_View);
-                    insertPoint.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                }
-            } finally {
-                allEvents.close();
-            }
-        }
-
-        // TODO: Add weather info
-        //here
-        JSONObject weatherInfo = null;
-        try {
-            weatherInfo = new JSONObject(loadJSONFromFile("Weather.json"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //weatherInfo
-        try {
-            //WeatherModel weatherModel = new WeatherModel();
-            weatherModel.fillModelWithJSONData(weatherInfo);
-            GraphDesigner.designGraph(activtyBinding.appBar.profile.weatherGraph,
-                    weatherModel.provideWeatherWeekInfoForGraph(new DataPoint[10], new DataPoint[10]),
-                    weatherModel.getDayNamesForWeeks());
-            activtyBinding.appBar.profile.setWeatherModel(weatherModel);
-            String[] valuesForTree = new String[]{weatherModel.getRainClassified(), weatherModel.getTempClassified(),
-                    weatherModel.getHumidClassified(), weatherModel.getWindClassified()};
-            TreeConstructor treeConstructor = new TreeConstructor();
-            treeConstructor.setRootNode();
-            treeConstructor.fillTreeFromJSON(treeConstructor.root);
-            String outcome = treeConstructor.generateOutcome(treeConstructor.root, valuesForTree, 0);
-            String activityMessage = "";
-            if (outcome == "Yes") {
-                activityMessage = "Enjoy the day";
-            } else {
-                activityMessage = "Stay home for comfort";
-            }
-            activtyBinding.appBar.profile.suggestion.setText(activityMessage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (DataFormatException e) {
-            e.printStackTrace();
-        }
         // TODO: ADD info about the future activity
     }
 
-    private void injectDependencies() {
-        ((Adnroid_TUOrgnzr) getApplication()).getComponent().inject(this);
+    public void injectComponents() {
+        ((Adnroid_TUOrgnzr) this.getApplication()).getComponent().inject(this);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -315,7 +209,7 @@ public class Profile_Activity extends AppCompatActivity
         } else if (id == R.id.nav_map) {
             double[] desitinationCoordinates = null;
             try {
-                desitinationCoordinates = getCoordinatesForNextLecture(Calendar.getInstance());
+                desitinationCoordinates = this.profileActivityPresenter.getCoordinatesForNextLecture(Calendar.getInstance());
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -402,116 +296,75 @@ public class Profile_Activity extends AppCompatActivity
 
     @Override
     public void onPause() {
-        unregisterLocationListeners();
+        ((CustomLocationListener) this.profileActivityPresenter.getLocationListener()).unregisterLocationListeners();
         super.onPause();
 
-    }
-
-    private void unregisterLocationListeners() {
-
-        // Ask for lacation permission if it is not granted
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION);
-
-        }
-
-
-        locationManager.removeUpdates(this.locationListener);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        registerLocationListeners();
+        ((CustomLocationListener) this.profileActivityPresenter.getLocationListener()).registerLocationListeners(criteria);
     }
 
-    private void registerLocationListeners() {
+    public void setWeatherModel(WeatherModel weatherModel) {
+        this.activtyBinding.appBar.profile.setWeatherModel(weatherModel);
+    }
 
-        unregisterLocationListeners();
-
-        String bestAvailableProvider = locationManager.getBestProvider(this.criteria, true);
-        String bestProvider = locationManager.getBestProvider(this.criteria, false);
-
-        if (bestAvailableProvider == null) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this)
-                    .setTitle("Location detection Problem")
-                    .setMessage("There is a problem with the locationDetection. Please restart the application")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            return;
-                        }
-                    });
-            alert.show();
-        } else if (bestAvailableProvider.equals(bestProvider)) {
-
-            // Ask for lacation permission if it is not granted
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION);
-
-            }
-
-            locationManager.requestLocationUpdates(bestProvider, 200, 10, this.locationListener);
-        } else {
-            // Ask for lacation permission if it is not granted
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION);
-
-            }
-
-            locationManager.requestLocationUpdates(bestAvailableProvider, 200, 10, this.locationListener);
-
+    public void designGraph(WeatherModel weatherModel) {
+        try {
+            GraphDesigner.designGraph(activtyBinding.appBar.profile.weatherGraph,
+                    weatherModel.provideWeatherWeekInfoForGraph(new DataPoint[10], new DataPoint[10]),
+                    weatherModel.getDayNamesForWeeks());
+        } catch (DataFormatException e) {
+            e.printStackTrace();
         }
     }
 
-    private double[] getCoordinatesForNextLecture(Calendar calendar) throws JSONException, IOException {
-        String currentDay = new SimpleDateFormat("EEEE").format(Calendar.getInstance().getTime());
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int currentMinutes = calendar.get(Calendar.MINUTE);
-        int targetMinutes = -1;
-
-        if (currentMinutes < 30 && currentHour < 13 && currentHour > 7) {
-            targetMinutes = 30;
-        } else if (currentMinutes >= 30 && currentHour < 13 && currentHour > 7) {
-            currentHour++;
-            if (currentHour < 13) {
-                targetMinutes = 30;
-            } else {
-                targetMinutes = 45;
-            }
-        } else if (currentMinutes < 45 && currentHour >= 13) {
-            targetMinutes = 45;
-        } else {
-            targetMinutes = 45;
-            currentHour++;
-        }
-        if (((currentHour < 7) || ((currentHour == 7) && (targetMinutes < 30)))
-                || ((currentHour > 18) || ((currentHour == 18) && (targetMinutes > 45)))) {
-
-            //TODO: Get the time for the first lecture in the next day
-            currentHour = 7;
-            targetMinutes = 30;
-        }
-        //here
-        String targetSqlSelectValue = Integer.toString(currentHour) + ":" + Integer.toString(targetMinutes);
-        //ReadProgrammTableHelper readProgrammTableHelper = new ReadProgrammTableHelper(this);
-
-        Cursor readTable = readProgrammTableHelper.readTheNextComingLectureInfo(targetSqlSelectValue);
-        readTable.moveToFirst();
-        String buildingForTheNextLecture = readTable.getString(readTable.getColumnIndex(ProgrammSQLContract.SubjectTable.BUILDING_COLUMN)).replace(" ", "");
-        JSONObject coordinatesJSON = new JSONObject(loadJSONFromFile("Coordinates.json"));
-        double latitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("latitude");
-        double longitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("longitude");
-        readTable.close();
-        return new double[]{latitude, longitude};
-
+    public void setWeatherSuggestion(String suggestion) {
+        this.activtyBinding.appBar.profile.suggestion.setText(suggestion);
     }
 
+    // TODO: Make it with data - view binding
+    public void setInfoAboutLatestActivity(Cursor allEvents) {
+        if ((allEvents != null) && (allEvents.getCount() > 0)) {
+            LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            try {
+
+                while (allEvents.moveToNext()) {
+
+                    View v = vi.inflate(R.layout.note_inflation_template, null);
+
+                    // Fill in any details dynamically here
+                    TextView note_title = (TextView) v.findViewById(R.id.Note_Title);
+                    note_title.setText(allEvents.getString(allEvents.getColumnIndex(ProgrammSQLContract.EventsTable.EVENTS_NAME_COLUMN)));
+
+                    TextView note_deascription = (TextView) v.findViewById(R.id.Note_Description);
+                    note_deascription.setText(allEvents.getString(allEvents.getColumnIndex(ProgrammSQLContract.EventsTable.EVENT_DESCRIPTION)));
+
+                    TextView note_date = (TextView) v.findViewById(R.id.Note_Date);
+                    note_date.setText(allEvents.getString(allEvents.getColumnIndex(ProgrammSQLContract.EventsTable.EVENT_DATE)));
+
+                    // Insert into main view
+                    ViewGroup insertPoint = (ViewGroup) findViewById(R.id.Latest_Event_View);
+                    insertPoint.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                }
+
+            } finally {
+
+                allEvents.close();
+            }
+        }
+        // Make Toast for info if there are no stored activity
+        else {
+            Toast.makeText(this, "There are no upcomming events stored", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void setDateAndDayInformation(String date, String day) {
+        this.activtyBinding.appBar.profile.Date.setText(date);
+        this.activtyBinding.appBar.profile.DayOfWeek.setText(day);
+
+    }
 }

@@ -1,20 +1,20 @@
 package com.androidprojects.tudevs.tu_orgnzr.WeatherAnalyzer;
 
-import com.androidprojects.tudevs.tu_orgnzr.Profile_Activity;
+import com.androidprojects.tudevs.tu_orgnzr.Adnroid_TUOrgnzr;
+import com.androidprojects.tudevs.tu_orgnzr.Settings.DataFromSourceReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /**
  * Created by Ivan Grigorov on 30/04/2017.
@@ -22,43 +22,13 @@ import java.util.Map;
  */
 public class TreeConstructor {
 
-    private class Node {
-        private String name;
-        private JSONArray children;
-        private Collection<Node> extractedChildren;
-        boolean isLeaf;
-        Map leaf = new HashMap<String,String>();
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setChildren(JSONArray children) {
-            this.children = children;
-        }
-
-        public void setRouteToNode(String routeToNode) {
-            this.routeToNode = routeToNode;
-        }
-
-        private String routeToNode;
-
-        public Node(String name, JSONArray children, String routeToNode, boolean isLeaf) {
-            this.name = name;
-            this.children = children;
-            this.routeToNode = routeToNode;
-            this.isLeaf = isLeaf;
-            this.extractedChildren = new ArrayList<Node>();
-
-        }
-    }
-
     public Node root;
     private JSONObject treeJSON;
 
+    @Inject
     public TreeConstructor() {
         try {
-            treeJSON = new JSONObject(Profile_Activity.loadJSONFromFile("DecisionTree.json"));
+            treeJSON = new JSONObject(DataFromSourceReader.loadJSONFromFile("DecisionTree.json", Adnroid_TUOrgnzr.getContext()));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -66,7 +36,6 @@ public class TreeConstructor {
         }
 
     }
-    //JSONObject treeJSON =  new JSONObject(Profile_Activity.loadJSONFromFile("DecisionTree.json")) ;
 
     //public void createNode(String name, )
     public void setRootNode() {
@@ -91,6 +60,7 @@ public class TreeConstructor {
             e.printStackTrace();
         }
     }
+    //JSONObject treeJSON =  new JSONObject(Profile_Activity.loadJSONFromFile("DecisionTree.json")) ;
 
     public void fillTreeFromJSON(Node root) {
         try {
@@ -134,5 +104,35 @@ public class TreeConstructor {
             return generateOutcome(node, weatherValues, tmpIndex++);
         }
         return null;
+    }
+
+    private class Node {
+        boolean isLeaf;
+        Map leaf = new HashMap<String, String>();
+        private String name;
+        private JSONArray children;
+        private Collection<Node> extractedChildren;
+        private String routeToNode;
+
+        public Node(String name, JSONArray children, String routeToNode, boolean isLeaf) {
+            this.name = name;
+            this.children = children;
+            this.routeToNode = routeToNode;
+            this.isLeaf = isLeaf;
+            this.extractedChildren = new ArrayList<Node>();
+
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setChildren(JSONArray children) {
+            this.children = children;
+        }
+
+        public void setRouteToNode(String routeToNode) {
+            this.routeToNode = routeToNode;
+        }
     }
 }

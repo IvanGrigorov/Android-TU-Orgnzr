@@ -17,7 +17,6 @@ public class HelpersModule {
 
     private Context context;
 
-
     public HelpersModule(Context context) {
         this.context = context;
     }

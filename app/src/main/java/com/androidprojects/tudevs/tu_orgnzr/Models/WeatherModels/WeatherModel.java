@@ -43,6 +43,7 @@ public class WeatherModel {
 
     }
 
+
     public String[] getDayNamesForWeeks() throws DataFormatException {
         if (this.dayNamesForWeeks == null) {
             throw new DataFormatException("Missing information for the week. You should call the fillModelWithJSON Method first.");

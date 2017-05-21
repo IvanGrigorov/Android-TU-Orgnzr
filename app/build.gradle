@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 
 android {
@@ -38,4 +39,8 @@ dependencies {
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.google.dagger:dagger:2.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.2'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
