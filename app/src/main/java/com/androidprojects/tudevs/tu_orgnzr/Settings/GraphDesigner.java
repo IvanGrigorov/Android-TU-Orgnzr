@@ -30,12 +30,13 @@ public class GraphDesigner {
         graphView.addSeries(firstSeries);
         firstSeries.setThickness(3);
         secondSeries.setThickness(3);
-        secondSeries.setColor(Color.RED);
+        secondSeries.setColor(Color.BLUE);
+        firstSeries.setColor(Color.RED);
         secondSeries.setAnimated(true);
         graphView.addSeries(secondSeries);
         graphView.animate();
         graphView.setTitle("Temperature");
-        graphView.getGridLabelRenderer().setVerticalLabelsSecondScaleColor(Color.RED);
+        graphView.getGridLabelRenderer().setVerticalLabelsSecondScaleColor(Color.BLUE);
         graphView.getGridLabelRenderer().setTextSize(12f);
         graphView.getGridLabelRenderer().reloadStyles();
 

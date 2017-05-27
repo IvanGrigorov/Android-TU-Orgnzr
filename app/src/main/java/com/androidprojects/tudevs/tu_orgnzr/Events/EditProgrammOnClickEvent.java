@@ -20,8 +20,8 @@ public class EditProgrammOnClickEvent extends AbstractEvent implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        Intent intent = new Intent(this.context, Edit_Program_Mode.class);
-        this.context.startActivity(intent);
+        Intent intent = new Intent(this.activity, Edit_Program_Mode.class);
+        this.activity.startActivity(intent);
         this.activity.finish();
     }
 }

@@ -11,8 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-
-import com.androidprojects.tudevs.tu_orgnzr.Config.Config;
+import android.util.Log;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,13 +26,23 @@ public class CustomLocationListener implements LocationListener {
     @Inject
     public CustomLocationListener(Criteria criteria, @Named("Location") LocationManager locationManager) {
         this.locationManager = locationManager;
+        this.criteria = criteria;
 
+    }
+
+    public double getLongitude() {
+        return this.longitude;
+    }
+
+    public double getLatitude() {
+        return this.latitude;
     }
 
     public void setContext(Activity context) {
         this.contextBinded = context;
     }
 
+    @Override
     public void onLocationChanged(Location location) {
         longitude = location.getLongitude();
         latitude = location.getLatitude();
@@ -79,23 +88,24 @@ public class CustomLocationListener implements LocationListener {
             if (ActivityCompat.checkSelfPermission(this.contextBinded, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.contextBinded, Manifest.permission.ACCESS_COARSE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
+                Log.d("CHECK:", "Not enabled provider");
 
-                ActivityCompat.requestPermissions(this.contextBinded, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, Config.LOCATION_PERMISSION);
+
+            } else {
+                locationManager.requestLocationUpdates(bestProvider, 10, 10, this);
 
             }
 
-            locationManager.requestLocationUpdates(bestProvider, 200, 10, this);
         } else {
             // Ask for lacation permission if it is not granted
             if (ActivityCompat.checkSelfPermission(this.contextBinded, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this.contextBinded, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
 
-                ActivityCompat.requestPermissions(this.contextBinded, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, Config.LOCATION_PERMISSION);
-
+                Log.d("CHECK:", "Not enabled provider");
+            } else {
+                locationManager.requestLocationUpdates(bestAvailableProvider, 200, 10, this);
             }
-
-            locationManager.requestLocationUpdates(bestAvailableProvider, 200, 10, this);
 
         }
     }
@@ -106,12 +116,11 @@ public class CustomLocationListener implements LocationListener {
         if (ActivityCompat.checkSelfPermission(this.contextBinded, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this.contextBinded, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
+            Log.d("CHECK:", "Not enabled provider");
 
-            ActivityCompat.requestPermissions(this.contextBinded, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, Config.LOCATION_PERMISSION);
-
+        } else {
+            locationManager.removeUpdates(this);
         }
-
-        locationManager.removeUpdates(this);
     }
 
 

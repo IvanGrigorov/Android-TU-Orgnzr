@@ -1,7 +1,9 @@
 package com.androidprojects.tudevs.tu_orgnzr;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 
+import com.androidprojects.tudevs.tu_orgnzr.Config.AppDatabase;
 import com.androidprojects.tudevs.tu_orgnzr.DaggerModules.CriteriaModule;
 import com.androidprojects.tudevs.tu_orgnzr.DaggerModules.HelpersModule;
 import com.androidprojects.tudevs.tu_orgnzr.DaggerModules.ListenerModule;
@@ -20,7 +22,12 @@ import dagger.Component;
 public class Adnroid_TUOrgnzr extends Application {
 
     private static Adnroid_TUOrgnzr appContext;
+    private static AppDatabase appDatabase;
     private ApplicationComponent component;
+
+    public static AppDatabase getDataBase() {
+        return appDatabase;
+    }
 
     public static Adnroid_TUOrgnzr getContext() {
         return appContext;
@@ -39,6 +46,7 @@ public class Adnroid_TUOrgnzr extends Application {
                 .managerModules(new ManagerModules(this))
                 //.listenerModule(new ListenerModule(this))
                 .build();
+        appDatabase = Room.databaseBuilder(this, AppDatabase.class, "App_DB").build();
     }
 
     @Component(modules = {HelpersModule.class, WeatherModelsModules.class,

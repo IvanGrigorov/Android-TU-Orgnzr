@@ -1,14 +1,16 @@
 package com.androidprojects.tudevs.tu_orgnzr.Presenters;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
+import com.androidprojects.tudevs.tu_orgnzr.Adnroid_TUOrgnzr;
 import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel;
 import com.androidprojects.tudevs.tu_orgnzr.Profile_Activity;
+import com.androidprojects.tudevs.tu_orgnzr.RoomLibraryDAO.EventsDAO;
+import com.androidprojects.tudevs.tu_orgnzr.RoomLibraryDAO.ProgrammDAO;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.CustomLocationListener;
@@ -19,12 +21,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 public class ProfileActivityPresenter implements IPresenter {
 
@@ -35,6 +38,7 @@ public class ProfileActivityPresenter implements IPresenter {
     private TreeConstructor treeConstructor;
     private Activity contextBinded;
     private ReadEventTableHelper readEventTableHelper;
+    private double[] result;
 
 
     @Inject
@@ -60,7 +64,7 @@ public class ProfileActivityPresenter implements IPresenter {
         this.contextBinded = contextBinded;
     }
 
-    public double[] getCoordinatesForNextLecture(Calendar calendar) throws JSONException, IOException {
+    public String getDateTimeForNextLecture(Calendar calendar) throws JSONException, IOException {
         String currentDay = new SimpleDateFormat("EEEE").format(Calendar.getInstance().getTime());
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinutes = calendar.get(Calendar.MINUTE);
@@ -92,14 +96,22 @@ public class ProfileActivityPresenter implements IPresenter {
         String targetSqlSelectValue = Integer.toString(currentHour) + ":" + Integer.toString(targetMinutes);
         //ReadProgrammTableHelper readProgrammTableHelper = new ReadProgrammTableHelper(this);
 
-        Cursor readTable = readProgrammTableHelper.readTheNextComingLectureInfo(targetSqlSelectValue);
-        readTable.moveToFirst();
-        String buildingForTheNextLecture = readTable.getString(readTable.getColumnIndex(ProgrammSQLContract.SubjectTable.BUILDING_COLUMN)).replace(" ", "");
-        JSONObject coordinatesJSON = new JSONObject(DataFromSourceReader.loadJSONFromFile("Coordinates.json", this.contextBinded));
-        double latitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("latitude");
-        double longitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("longitude");
-        readTable.close();
-        return new double[]{latitude, longitude};
+        //Cursor readTable = readProgrammTableHelper.readTheNextComingLectureInfo(targetSqlSelectValue);
+        //readTable.moveToFirst();
+
+        //getProgrammForDay(targetSqlSelectValue).
+        // observeOn(AndroidSchedulers.mainThread())
+        // .subscribeOn(Schedulers.io())
+        // .subscribe(coordinates -> {
+        //     result = coordinates;
+        // });
+        return targetSqlSelectValue;
+        //String buildingForTheNextLecture = readTable.getString(readTable.getColumnIndex(ProgrammSQLContract.SubjectTable.BUILDING_COLUMN)).replace(" ", "");
+        //JSONObject coordinatesJSON = new JSONObject(DataFromSourceReader.loadJSONFromFile("Coordinates.json", this.contextBinded));
+        //double latitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("latitude");
+        //double longitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("longitude");
+        //readTable.close();
+        //return new double[]{latitude, longitude};
 
     }
 
@@ -161,14 +173,30 @@ public class ProfileActivityPresenter implements IPresenter {
         ((Profile_Activity) this.contextBinded).setWeatherSuggestion(activityMessage);
     }
 
-    public void readLatestActivity() {
-        Cursor allEvents = this.readEventTableHelper.readLatestActivity();
-        ((Profile_Activity) this.contextBinded).setInfoAboutLatestActivity(allEvents);
+    public EventsDAO readLatestActivity() {
+        EventsDAO eventsDAO = Adnroid_TUOrgnzr.getDataBase().eventsDAOContractor().returnLatestEvent();
+        return eventsDAO;
     }
 
     public void getCurrentDateAndDay() {
-        String currentDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
-        String currentDay = DateFormat.getDateInstance(DateFormat.DAY_OF_WEEK_FIELD).format(new Date());
+        String currentDate = DateFormat.format("dd MMM yyyy", new Date()).toString();
+        String currentDay = DateFormat.format("EEEE", new Date()).toString();
         ((Profile_Activity) this.contextBinded).setDateAndDayInformation(currentDate, currentDay);
+    }
+
+    public Observable<double[]> getProgrammForDay(String time) {
+        return Observable.create(e -> {
+            ProgrammDAO programmDAOs = Adnroid_TUOrgnzr.getDataBase().programmDAOContractor().returnCurrenrLecture(time + "%");
+            if (programmDAOs == null) {
+                e.onComplete();
+            } else {
+                String buildingForTheNextLecture = programmDAOs.getBuilding();
+                JSONObject coordinatesJSON = new JSONObject(DataFromSourceReader.loadJSONFromFile("Coordinates.json", this.contextBinded));
+                double latitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("latitude");
+                double longitude = coordinatesJSON.getJSONObject("Coordinates").getJSONObject(buildingForTheNextLecture).getDouble("longitude");
+                double[] coordinates = new double[]{latitude, longitude};
+                e.onNext(coordinates);
+            }
+        });
     }
 }

@@ -1,17 +1,24 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 25
     buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.androidprojects.tudevs.tu_orgnzr"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        jackOptions {
+            additionalParameters('jack.incremental': 'true')
+            enabled = true
+        }
+
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
 
     }
     buildTypes {
@@ -25,6 +32,11 @@ android {
     }
 
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
 }
 
 dependencies {
@@ -33,13 +45,18 @@ dependencies {
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'junit:junit:4.12'
 
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
     compile 'com.jjoe64:graphview:4.2.1'
-    compile 'com.google.dagger:dagger:2.2'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.google.dagger:dagger:2.5'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.5'
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha1"
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+
+
 }
 repositories {
     mavenCentral()

@@ -1,26 +1,26 @@
 {
   "Coordinates": {
-    "Building1": {
+    "Building 1": {
       "latitude": "42.657",
       "longitude": "23.354"
     },
-    "Building2": {
+    "Building 2": {
       "latitude": "42.657",
       "longitude": "23.356"
     },
-    "Building4": {
+    "Building 4": {
       "latitude": "42.655",
       "longitude": "23.354"
     },
-    "Building5": {
+    "Building 5": {
       "latitude": "42.654",
       "longitude": "23.354"
     },
-    "Building10": {
+    "Building 10": {
       "latitude": "42.652",
       "longitude": "23.354"
     },
-    "Building12": {
+    "Building 12": {
       "latitude": "42.657",
       "longitude": "23.353"
     }

@@ -9,9 +9,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.androidprojects.tudevs.tu_orgnzr.Adnroid_TUOrgnzr;
 import com.androidprojects.tudevs.tu_orgnzr.Config.Config;
 import com.androidprojects.tudevs.tu_orgnzr.Contracts.ProgrammSQLContract;
 import com.androidprojects.tudevs.tu_orgnzr.R;
+import com.androidprojects.tudevs.tu_orgnzr.RoomLibraryDAO.EventsDAO;
 import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ImportNewEventHelper;
 
 import java.util.Calendar;
@@ -47,6 +49,7 @@ public class OnSaveNewEventInsertEvent extends AbstractEvent implements View.OnC
         newEventHelper.getContentValues().put(ProgrammSQLContract.EventsTable.EVENTS_NAME_COLUMN, eventTitle);
         newEventHelper.getContentValues().put(ProgrammSQLContract.EventsTable.EVENT_DESCRIPTION, eventDescription);
         newEventHelper.getContentValues().put(ProgrammSQLContract.EventsTable.EVENT_DATE, eventDate);
+        final EventsDAO eventsDAO = new EventsDAO(eventTitle, eventDescription, eventDate);
 
         // Return month as a number from 1 to 12
         int numberOfSelectedMonth = -1;
@@ -101,7 +104,13 @@ public class OnSaveNewEventInsertEvent extends AbstractEvent implements View.OnC
             int startNumber = 1;
             this.activity.getSharedPreferences(Config.USER_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString(Config.eventKey, Integer.toString(startNumber).toString()).commit();
             Toast.makeText(this.activity.getApplicationContext(), "New Event is stored.", Toast.LENGTH_SHORT).show();
-
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    Adnroid_TUOrgnzr.getDataBase().eventsDAOContractor().insertEvent(eventsDAO);
+                }
+            };
+            thread.start();
             newEventHelper.InsertValues();
 
             // Add the event to the native calendar (default time for notification 10:00 AM)
