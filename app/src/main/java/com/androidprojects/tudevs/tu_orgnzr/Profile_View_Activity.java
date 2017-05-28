@@ -1,11 +1,11 @@
 package com.androidprojects.tudevs.tu_orgnzr;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 public class Profile_View_Activity extends AppCompatActivity {
 

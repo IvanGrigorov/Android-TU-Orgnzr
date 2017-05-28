@@ -22,13 +22,11 @@ public final class Config {
     public final static String eventKey = "EventNumber";
 
     // Database config:
-
-    // Holds the initial version of the Database
-    public static int DATABASE_VERSION = 1;
-
     // Holds the name of the Database
     public static final String DATABASE_NAME = "Organizer.db";
-
-
+    // Other Constants
+    public static final int LOCATION_PERMISSION = 1;
+    // Holds the initial version of the Database
+    public static int DATABASE_VERSION = 1;
 
 }

@@ -1,6 +1,5 @@
 package com.androidprojects.tudevs.tu_orgnzr.Config;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,21 +19,20 @@ public enum ColorsEnum {
     BRIGHT_ORANGE("#ff9966"),
     BRIGHT_RED("#ff6666");
 
+    public static final List<ColorsEnum> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+    private static final int SIZE = VALUES.size();
+    private static final Random RANDOM = new Random();
     private String value;
 
-    private ColorsEnum (String value) {
+    ColorsEnum(String value) {
         this.value = value;
+    }
+
+    public static ColorsEnum randomColor() {
+        return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
     public String getValue() {
         return this.value;
-    }
-
-    public static final List<ColorsEnum> VALUES =   Collections.unmodifiableList(Arrays.asList(values()));
-    private static final int SIZE = VALUES.size();
-    private static final Random RANDOM = new Random();
-
-    public static ColorsEnum randomColor() {
-        return VALUES.get(RANDOM.nextInt(SIZE));
     }
 }

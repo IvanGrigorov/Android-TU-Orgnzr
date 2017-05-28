@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <include layout="@layout/program_header_layout"/>
+    <ScrollView
 
-        <TextView
-            android:id="@+id/Day_Of_Week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="45sp"
-            android:layout_gravity="center_horizontal"
-            android:text="Tuesday"/>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-        <include layout="@layout/programm_table_layout" android:id="@+id/Imported_Table"/>
-    </LinearLayout>
-</ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/program_header_layout" />
+
+            <TextView
+                android:id="@+id/Day_Of_Week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Tuesday"
+                android:textSize="45sp" />
+
+            <include
+                android:id="@+id/Imported_Table"
+                layout="@layout/programm_table_layout" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

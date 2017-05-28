@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,13 +21,14 @@
             android:id="@+id/Day_Of_Week_Spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="45sp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:textSize="45sp" />
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
+
             <TableLayout
                 android:id="@+id/Edit_Programm_Table"
                 android:layout_width="match_parent"
@@ -38,483 +38,506 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="@drawable/bottom_border_edit_table_view">
+                    android:background="@drawable/bottom_border_edit_table_view"
+                    android:gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/hour_730"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="7:30 - 8:15"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="7:30 - 8:15"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_730"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_730"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
-                    android:id="@+id/Building_730"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Buildings"
-                    android:gravity="center"
-                    android:textSize="12sp"
-                    />
+                        android:id="@+id/Building_730"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Buildings"
+                        android:textSize="12sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_830"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="8:30 - 9:15"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="8:30 - 9:15"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_830"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_830"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_830"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildinsgs"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildinsgs"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_930"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="9:30 - 10:15"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="9:30 - 10:15"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_930"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_930"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_930"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1030"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="10:30 - 11:15"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="10:30 - 11:15"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1030"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1030"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1030"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1130"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="11:30 - 12:15"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="11:30 - 12:15"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1130"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1130"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1130"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1230"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="12:30 - 13:15"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="12:30 - 13:15"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1230"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1230"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1230"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1345"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="13:45 - 12:30"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="13:45 - 12:30"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1345"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1345"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1345"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1245"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="14:45 - 15:30"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="14:45 - 15:30"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1245"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1245"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1245"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1545"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="15:45 - 16:30"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="15:45 - 16:30"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1545"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1545"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1545"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1645"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="16:45 - 17:30"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="16:45 - 17:30"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1645"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1645"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1645"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1745"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="17:45 - 18:30"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="17:45 - 18:30"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1745"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1745"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1745"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_border_edit_table_view">
+
                     <TextView
                         android:id="@+id/hour_1845"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="18:45 - 19:30"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        />
+                        android:text="18:45 - 19:30"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/subj_1845"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subject"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Subject"
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/teacher_1845"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Teacher"
                         android:gravity="center"
-                        android:textSize="15sp"/>
+                        android:text="Teacher"
+                        android:textSize="15sp" />
+
                     <Spinner
                         android:id="@+id/Building_1845"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Buildings"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        />
+                        android:text="Buildings"
+                        android:textSize="15sp" />
                 </TableRow>
 
                 <TableRow
@@ -535,6 +558,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Save"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
     </LinearLayout>
 </ScrollView>

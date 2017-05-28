@@ -21,13 +21,14 @@ public class ImportNewEventHelper implements IInsertValuesToDatabase {
         this.createEbentDatabasHelper = new CreateEventDatabaseHelper(context);
         this.db = this.createEbentDatabasHelper.getWritableDatabase();
     }
+
     @Override
     public ContentValues getContentValues() {
-        return this.contentValues;
+        return contentValues;
     }
 
     @Override
     public void InsertValues() {
-        this.newRowId = db.insert(ProgrammSQLContract.EventsTable.TABLE_NAME, null, this.contentValues);
+        this.newRowId = db.insert(ProgrammSQLContract.EventsTable.TABLE_NAME, null, contentValues);
     }
 }

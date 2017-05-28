@@ -23,11 +23,11 @@ public class CreateDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_PROGRAMM_TABLE =
                 "CREATE TABLE IF NOT EXISTS " + ProgrammSQLContract.SubjectTable.TABLE_NAME + "(" +
-                ProgrammSQLContract.SubjectTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                ProgrammSQLContract.SubjectTable.LECTURE_NAME_COLUMN + " TEXT NOT NULL, " +
-                ProgrammSQLContract.SubjectTable.DAY_OF_WEEK_COLUMN + " TEXT NOT NULL, " +
-                ProgrammSQLContract.SubjectTable.STARTS_AT_COLUMN + " TEXT NOT NULL, " +
-                ProgrammSQLContract.SubjectTable.ENDS_AT_COLUMN + " TEXT NOT NULL, " +
+                        ProgrammSQLContract.SubjectTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        ProgrammSQLContract.SubjectTable.LECTURE_NAME_COLUMN + " TEXT NOT NULL, " +
+                        ProgrammSQLContract.SubjectTable.DAY_OF_WEEK_COLUMN + " TEXT NOT NULL, " +
+                        ProgrammSQLContract.SubjectTable.STARTS_AT_COLUMN + " TEXT NOT NULL, " +
+                        ProgrammSQLContract.SubjectTable.ENDS_AT_COLUMN + " TEXT NOT NULL, " +
                         ProgrammSQLContract.SubjectTable.BUILDING_COLUMN + " TEXT OT NULL);";
 
         db.execSQL(SQL_CREATE_PROGRAMM_TABLE);
