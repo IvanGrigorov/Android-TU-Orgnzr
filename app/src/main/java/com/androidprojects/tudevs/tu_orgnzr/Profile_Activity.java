@@ -17,7 +17,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,8 +29,6 @@ import com.androidprojects.tudevs.tu_orgnzr.Config.Config;
 import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel;
 import com.androidprojects.tudevs.tu_orgnzr.Presenters.ProfileActivityPresenter;
 import com.androidprojects.tudevs.tu_orgnzr.RoomLibraryDAO.EventsDAO;
-import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
-import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.CustomLocationListener;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.GraphDesigner;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.Requirements;
@@ -46,7 +43,6 @@ import java.util.Locale;
 import java.util.zip.DataFormatException;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -58,25 +54,12 @@ public class Profile_Activity extends AppCompatActivity
     private static final int LOCATION_PERMISSION = 1;
 
     // Injecting Dependencies
-
-    @Inject
-    public ReadEventTableHelper readEventTableHelper;
-    @Inject
-    public ReadProgrammTableHelper readProgrammTableHelper;
-    @Inject
-    public WeatherModel weatherModel;
-    @Inject
-    @Named("Location")
-    public LocationManager locationManager;
     @Inject
     Criteria criteria;
     // Create Listener to listen and update location
     @Inject
     ProfileActivityPresenter profileActivityPresenter;
     ActivityProfileBinding activtyBinding;
-    //private ReadEventTableHelper readEventTableHelper;
-    private double longitude;
-    private double latitude;
     private String provider;
 
     @Override
@@ -93,14 +76,9 @@ public class Profile_Activity extends AppCompatActivity
 
         if (!checkPermissions()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION);
-        }
-        if (this.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) && Requirements.hasInternetConnectivity(this)) {
-            this.provider = (this.locationManager.getProvider(LocationManager.NETWORK_PROVIDER)).getName();
         } else {
-            this.provider = locationManager.getBestProvider(criteria, true);
-
+            activateLocationProviderIfEnabled();
         }
-
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(activtyBinding.appBar.toolbar);
@@ -110,11 +88,11 @@ public class Profile_Activity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, activtyBinding.drawerLayout, activtyBinding.appBar.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         if (activtyBinding.drawerLayout != null) {
-            activtyBinding.drawerLayout.setDrawerListener(toggle);
+            activtyBinding.drawerLayout.addDrawerListener(toggle);
         }
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = this.activtyBinding.navView;
 
 
         final String value = getSharedPreferences(Config.USER_SHARED_PREFERENCES, Context.MODE_PRIVATE).getString(Config.key, Config.defaultValue);
@@ -197,11 +175,11 @@ public class Profile_Activity extends AppCompatActivity
 
             Intent intent = new Intent(getApplicationContext(), Programm_Set_Activity.class);
             startActivity(intent);
-            finish();
+            onPause();
         } else if (id == R.id.nav_events) {
             Intent intent = new Intent(getApplicationContext(), Display_Notes_Activity.class);
             startActivity(intent);
-            finish();
+            onPause();
 
         } else if (id == R.id.nav_friends) {
 
@@ -212,8 +190,12 @@ public class Profile_Activity extends AppCompatActivity
                 Toast.makeText(this, "Activate Location permissions from app settings menu", Toast.LENGTH_LONG).show();
                 return false;
             }
-            if ((!this.locationManager.isProviderEnabled(this.provider)) &&
-                    (!this.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))) {
+            if (!Requirements.hasInternetConnectivity(this)) {
+                Toast.makeText(this, "We need internet connectivity for this feature.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            if ((!this.profileActivityPresenter.getLocationManager().isProviderEnabled(this.provider)) &&
+                    (!this.profileActivityPresenter.getLocationManager().isProviderEnabled(LocationManager.NETWORK_PROVIDER))) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                         .setTitle("Enable GPS")
                         .setMessage("Please enable your GPS !")
@@ -225,8 +207,8 @@ public class Profile_Activity extends AppCompatActivity
 
             } else if (Requirements.isGoogleMapsInstalled(this)) {
                 // TODO: Consider calling
-                this.longitude = ((CustomLocationListener) this.profileActivityPresenter.getLocationListener()).getLongitude();
-                this.latitude = ((CustomLocationListener) this.profileActivityPresenter.getLocationListener()).getLatitude();
+                double longitude = ((CustomLocationListener) this.profileActivityPresenter.getLocationListener()).getLongitude();
+                double latitude = ((CustomLocationListener) this.profileActivityPresenter.getLocationListener()).getLatitude();
 
                 try {
                     this.profileActivityPresenter.
@@ -234,10 +216,11 @@ public class Profile_Activity extends AppCompatActivity
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe(coordinates -> {
-                                String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", this.latitude, this.longitude, coordinates[0], coordinates[1]);
+                                String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", latitude, longitude, coordinates[0], coordinates[1]);
                                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                                 startActivity(intent);
+                                onPause();
                             });
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -286,16 +269,9 @@ public class Profile_Activity extends AppCompatActivity
                         && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
-
-                    this.locationManager.requestLocationUpdates(this.provider, 200, 10, profileActivityPresenter.getLocationListener());
+                    this.profileActivityPresenter.getLocationManager().requestLocationUpdates(this.provider, 200, 10, profileActivityPresenter.getLocationListener());
 
                 }
-
-                Log.d("String", Double.toString(this.longitude));
-                String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f", this.latitude, this.longitude);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                startActivity(intent);
             } else {
                 Toast.makeText(this, "For using map functionality you should enable location permission.", Toast.LENGTH_LONG).show();
             }
@@ -316,6 +292,7 @@ public class Profile_Activity extends AppCompatActivity
         super.onResume();
         if (checkPermissions()) {
             ((CustomLocationListener) this.profileActivityPresenter.getLocationListener()).registerLocationListeners(criteria);
+            activateLocationProviderIfEnabled();
         }
     }
 
@@ -387,6 +364,15 @@ public class Profile_Activity extends AppCompatActivity
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED);
+
+    }
+
+    private void activateLocationProviderIfEnabled() {
+        if (this.profileActivityPresenter.getLocationManager().isProviderEnabled(LocationManager.NETWORK_PROVIDER) && Requirements.hasInternetConnectivity(this)) {
+            this.provider = (this.profileActivityPresenter.getLocationManager().getProvider(LocationManager.NETWORK_PROVIDER)).getName();
+        } else {
+            this.provider = this.profileActivityPresenter.getLocationManager().getBestProvider(criteria, false);
+        }
 
     }
 

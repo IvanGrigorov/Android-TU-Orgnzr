@@ -11,8 +11,6 @@ import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel;
 import com.androidprojects.tudevs.tu_orgnzr.Profile_Activity;
 import com.androidprojects.tudevs.tu_orgnzr.RoomLibraryDAO.EventsDAO;
 import com.androidprojects.tudevs.tu_orgnzr.RoomLibraryDAO.ProgrammDAO;
-import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
-import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.CustomLocationListener;
 import com.androidprojects.tudevs.tu_orgnzr.Settings.DataFromSourceReader;
 import com.androidprojects.tudevs.tu_orgnzr.WeatherAnalyzer.TreeConstructor;
@@ -31,25 +29,24 @@ import io.reactivex.Observable;
 
 public class ProfileActivityPresenter implements IPresenter {
 
-    private ReadProgrammTableHelper readProgrammTableHelper;
     private LocationListener locationListener;
     private LocationManager locationManager;
     private WeatherModel weatherModel;
     private TreeConstructor treeConstructor;
     private Activity contextBinded;
-    private ReadEventTableHelper readEventTableHelper;
-    private double[] result;
 
 
     @Inject
-    public ProfileActivityPresenter(ReadEventTableHelper readEventTableHelper, ReadProgrammTableHelper readProgrammTableHelper, LocationListener locationListener
+    public ProfileActivityPresenter(LocationListener locationListener
             , LocationManager locationManager, WeatherModel weatherModel, TreeConstructor treeConstructor) {
         this.locationListener = locationListener;
         this.locationManager = locationManager;
-        this.readProgrammTableHelper = readProgrammTableHelper;
         this.weatherModel = weatherModel;
         this.treeConstructor = treeConstructor;
-        this.readEventTableHelper = readEventTableHelper;
+    }
+
+    public LocationManager getLocationManager() {
+        return locationManager;
     }
 
     public LocationListener getLocationListener() {

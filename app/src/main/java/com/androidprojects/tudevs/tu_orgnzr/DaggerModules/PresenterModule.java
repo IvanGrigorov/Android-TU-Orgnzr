@@ -5,8 +5,6 @@ import android.location.LocationManager;
 
 import com.androidprojects.tudevs.tu_orgnzr.Models.WeatherModels.WeatherModel;
 import com.androidprojects.tudevs.tu_orgnzr.Presenters.ProfileActivityPresenter;
-import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadEventTableHelper;
-import com.androidprojects.tudevs.tu_orgnzr.SQLHelpers.ReadProgrammTableHelper;
 import com.androidprojects.tudevs.tu_orgnzr.WeatherAnalyzer.TreeConstructor;
 
 import javax.inject.Named;
@@ -23,12 +21,10 @@ public class PresenterModule {
 
 
     @Provides
-    ProfileActivityPresenter providesProfileActivityPresenter(ReadEventTableHelper readEventTableHelper,
-                                                              ReadProgrammTableHelper readProgrammTableHelper,
-                                                              @Named("custom") LocationListener locationListener,
+    ProfileActivityPresenter providesProfileActivityPresenter(@Named("custom") LocationListener locationListener,
                                                               @Named("Location") LocationManager locationManager,
                                                               WeatherModel weatherModel,
                                                               TreeConstructor treeConstructor) {
-        return new ProfileActivityPresenter(readEventTableHelper, readProgrammTableHelper, locationListener, locationManager, weatherModel, treeConstructor);
+        return new ProfileActivityPresenter(locationListener, locationManager, weatherModel, treeConstructor);
     }
 }
